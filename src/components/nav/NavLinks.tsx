@@ -4,14 +4,14 @@ import { MapPin, Award, ShoppingBag, BarChart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 
-interface NavItem {
+export interface NavItem {
   title: string;
   href: string;
   icon?: React.ReactNode;
   protected?: boolean;
 }
 
-const navItems: NavItem[] = [
+export const navItems: NavItem[] = [
   { title: "Home", href: "/" },
   { title: "Food Map", href: "/map", icon: <MapPin className="h-4 w-4" /> },
   { title: "Donate Food", href: "/donate" },
