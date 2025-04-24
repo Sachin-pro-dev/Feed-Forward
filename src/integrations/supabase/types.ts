@@ -87,6 +87,54 @@ export type Database = {
         }
         Relationships: []
       }
+      marketplace_products: {
+        Row: {
+          company: string | null
+          created_at: string
+          description: string
+          expiry_date: string | null
+          id: string
+          image_url: string | null
+          name: string
+          price: number
+          priority: string
+          quantity: number
+          seller_id: string
+          seller_name: string
+          type: string
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          description: string
+          expiry_date?: string | null
+          id?: string
+          image_url?: string | null
+          name: string
+          price: number
+          priority: string
+          quantity: number
+          seller_id: string
+          seller_name: string
+          type: string
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          description?: string
+          expiry_date?: string | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          price?: number
+          priority?: string
+          quantity?: number
+          seller_id?: string
+          seller_name?: string
+          type?: string
+        }
+        Relationships: []
+      }
       sponsor_commitments: {
         Row: {
           created_at: string

@@ -68,13 +68,13 @@ export const MarketplaceProvider: React.FC<{ children: React.ReactNode }> = ({ c
     search: '',
   });
 
-  // Fetch all products
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      let query = supabase.from('marketplace_products').select('*');
+      let query = supabase
+        .from('marketplace_products')
+        .select('*');
 
-      // Apply filters
       if (filters.priority) {
         query = query.eq('priority', filters.priority);
       }
@@ -88,14 +88,15 @@ export const MarketplaceProvider: React.FC<{ children: React.ReactNode }> = ({ c
         query = query.ilike('name', `%${filters.search}%`);
       }
 
-      const { data, error } = await query.order('created_at', { ascending: false });
+      const { data, error } = await query
+        .order('created_at', { ascending: false });
 
       if (error) {
         console.error('Error fetching products:', error);
         return;
       }
 
-      setProducts(data || []);
+      setProducts(data as Product[]);
     } catch (error) {
       console.error('Error in fetchProducts:', error);
     } finally {
@@ -103,7 +104,6 @@ export const MarketplaceProvider: React.FC<{ children: React.ReactNode }> = ({ c
     }
   };
 
-  // Fetch user-specific products
   const fetchUserProducts = async () => {
     if (!user) return;
     
@@ -120,7 +120,7 @@ export const MarketplaceProvider: React.FC<{ children: React.ReactNode }> = ({ c
         return;
       }
 
-      setUserProducts(data || []);
+      setUserProducts(data as Product[]);
     } catch (error) {
       console.error('Error in fetchUserProducts:', error);
     } finally {
@@ -128,7 +128,6 @@ export const MarketplaceProvider: React.FC<{ children: React.ReactNode }> = ({ c
     }
   };
 
-  // Add a new product
   const addProduct = async (product: Omit<Product, 'id' | 'seller_id' | 'seller_name' | 'created_at'>) => {
     if (!user) {
       toast.error("You must be logged in to add products");
@@ -158,7 +157,6 @@ export const MarketplaceProvider: React.FC<{ children: React.ReactNode }> = ({ c
     }
   };
 
-  // Update an existing product
   const updateProduct = async (id: string, updates: Partial<Product>) => {
     if (!user) {
       toast.error("You must be logged in to update products");
@@ -185,7 +183,6 @@ export const MarketplaceProvider: React.FC<{ children: React.ReactNode }> = ({ c
     }
   };
 
-  // Delete a product
   const deleteProduct = async (id: string) => {
     if (!user) {
       toast.error("You must be logged in to delete products");
@@ -212,7 +209,6 @@ export const MarketplaceProvider: React.FC<{ children: React.ReactNode }> = ({ c
     }
   };
 
-  // Update filters
   const updateFilters = (newFilters: {
     priority?: ProductPriority | null;
     type?: ProductType | null;
@@ -225,12 +221,10 @@ export const MarketplaceProvider: React.FC<{ children: React.ReactNode }> = ({ c
     }));
   };
 
-  // Load products on mount and when filters change
   useEffect(() => {
     fetchProducts();
   }, [filters]);
 
-  // Load user products when user changes
   useEffect(() => {
     if (user) {
       fetchUserProducts();
