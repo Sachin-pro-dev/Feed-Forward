@@ -1,25 +1,11 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { 
-  Menu, 
-  Bell, 
-  User, 
-  MapPin, 
-  LogOut, 
-  Wallet, 
-  Settings, 
-  ShoppingBag, 
-  Award
-} from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Menu, Bell, User, MapPin, LogOut, Wallet, Settings, ShoppingBag } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
+import { ConnectWallet } from "./ConnectWallet";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -43,24 +29,10 @@ export function Navbar() {
   const { isAuthenticated, user, logout } = useAuth();
 
   const navItems: NavItem[] = [
-    { 
-      title: "Home", 
-      href: "/" 
-    },
-    { 
-      title: "Food Map", 
-      href: "/map", 
-      icon: <MapPin className="h-4 w-4" /> 
-    },
-    { 
-      title: "Donate Food", 
-      href: "/donate" 
-    },
-    { 
-      title: "Marketplace", 
-      href: "/marketplace",
-      icon: <ShoppingBag className="h-4 w-4" />
-    },
+    { title: "Home", href: "/" },
+    { title: "Food Map", href: "/map", icon: <MapPin className="h-4 w-4" /> },
+    { title: "Donate Food", href: "/donate" },
+    { title: "Marketplace", href: "/marketplace", icon: <ShoppingBag className="h-4 w-4" /> },
   ];
 
   const handleLogout = () => {
@@ -73,7 +45,10 @@ export function Navbar() {
     <header className="sticky top-0 z-40 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
       <nav className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-6 md:gap-8">
-          <Link to="/" className="flex items-center space-x-2">
+          <Link 
+            to="/" 
+            className="flex items-center space-x-2 transition-transform hover:scale-105"
+          >
             <span className="font-bold text-2xl gradient-text">FeedForward</span>
           </Link>
           <div className="hidden md:flex gap-6">
@@ -81,7 +56,7 @@ export function Navbar() {
               <Link
                 key={item.href}
                 to={item.href}
-                className="flex items-center text-sm font-medium transition-colors hover:text-primary"
+                className="flex items-center text-sm font-medium transition-all hover:text-primary hover:scale-105"
               >
                 {item.icon && <span className="mr-1">{item.icon}</span>}
                 {item.title}
@@ -90,11 +65,13 @@ export function Navbar() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-4">
+          <ConnectWallet />
+          
           <Button 
             variant="ghost" 
             size="icon"
-            className="relative"
+            className="relative animate-fade-in"
             onClick={() => navigate("/notifications")}
           >
             <Bell className="h-5 w-5" />
@@ -158,7 +135,7 @@ export function Navbar() {
               </DropdownMenu>
             </>
           ) : (
-            <Button asChild className="hidden md:inline-flex btn-gradient">
+            <Button asChild className="hidden md:inline-flex btn-gradient animate-fade-in">
               <Link to="/login">Sign In</Link>
             </Button>
           )}
@@ -221,7 +198,7 @@ export function Navbar() {
                     </button>
                   </>
                 ) : (
-                  <Button asChild className="mx-7 mt-4 btn-gradient">
+                  <Button asChild className="mx-7 mt-4 btn-gradient animate-fade-in">
                     <Link to="/login" onClick={() => setIsOpen(false)}>Sign In</Link>
                   </Button>
                 )}
