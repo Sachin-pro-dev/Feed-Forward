@@ -9,6 +9,7 @@ import { Layout } from "./components/Layout";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Web3Provider } from "./components/providers/Web3Provider";
+import { MarketplaceProvider } from "./contexts/MarketplaceContext";
 
 // Import page components
 import Home from "./pages/Home";
@@ -22,6 +23,7 @@ import WalletPage from "./pages/WalletPage";
 import MarketplacePage from "./pages/MarketplacePage";
 import NotFound from "./pages/NotFound";
 import FarmerDonations from "./pages/FarmerDonations";
+import SellerDashboardPage from "./pages/SellerDashboardPage";
 
 const queryClient = new QueryClient();
 
@@ -32,42 +34,50 @@ const App = () => (
         <BrowserRouter>
           <AuthProvider>
             <Web3Provider>
-              <Toaster />
-              <Sonner />
-              <Routes>
-                <Route path="/" element={<Layout><Home /></Layout>} />
-                <Route path="/map" element={<Layout><FoodMap /></Layout>} />
-                <Route path="/food/:id" element={<Layout><FoodDetail /></Layout>} />
-                <Route path="/donate" element={<Layout><DonatePage /></Layout>} />
-                <Route path="/notifications" element={<Layout><NotificationCenter /></Layout>} />
-                <Route path="/login" element={<Layout><Login /></Layout>} />
-                <Route path="/signup" element={<Layout><SignUp /></Layout>} />
-                
-                <Route path="/wallet" element={
-                  <Layout>
-                    <ProtectedRoute>
-                      <WalletPage />
-                    </ProtectedRoute>
-                  </Layout>
-                } />
-                <Route path="/marketplace" element={
-                  <Layout>
-                    <ProtectedRoute>
+              <MarketplaceProvider>
+                <Toaster />
+                <Sonner />
+                <Routes>
+                  <Route path="/" element={<Layout><Home /></Layout>} />
+                  <Route path="/map" element={<Layout><FoodMap /></Layout>} />
+                  <Route path="/food/:id" element={<Layout><FoodDetail /></Layout>} />
+                  <Route path="/donate" element={<Layout><DonatePage /></Layout>} />
+                  <Route path="/notifications" element={<Layout><NotificationCenter /></Layout>} />
+                  <Route path="/login" element={<Layout><Login /></Layout>} />
+                  <Route path="/signup" element={<Layout><SignUp /></Layout>} />
+                  
+                  <Route path="/wallet" element={
+                    <Layout>
+                      <ProtectedRoute>
+                        <WalletPage />
+                      </ProtectedRoute>
+                    </Layout>
+                  } />
+                  <Route path="/marketplace" element={
+                    <Layout>
                       <MarketplacePage />
-                    </ProtectedRoute>
-                  </Layout>
-                } />
-                
-                <Route path="/farmer-donations" element={
-                  <Layout>
-                    <ProtectedRoute>
-                      <FarmerDonations />
-                    </ProtectedRoute>
-                  </Layout>
-                } />
-                
-                <Route path="*" element={<Layout><NotFound /></Layout>} />
-              </Routes>
+                    </Layout>
+                  } />
+                  
+                  <Route path="/seller-dashboard" element={
+                    <Layout>
+                      <ProtectedRoute>
+                        <SellerDashboardPage />
+                      </ProtectedRoute>
+                    </Layout>
+                  } />
+                  
+                  <Route path="/farmer-donations" element={
+                    <Layout>
+                      <ProtectedRoute>
+                        <FarmerDonations />
+                      </ProtectedRoute>
+                    </Layout>
+                  } />
+                  
+                  <Route path="*" element={<Layout><NotFound /></Layout>} />
+                </Routes>
+              </MarketplaceProvider>
             </Web3Provider>
           </AuthProvider>
         </BrowserRouter>
