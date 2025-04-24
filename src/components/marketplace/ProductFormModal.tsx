@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -33,11 +32,13 @@ const productSchema = z.object({
 
 type ProductFormValues = z.infer<typeof productSchema>;
 
+type RequiredProductFormValues = Omit<Product, 'id' | 'seller_id' | 'seller_name' | 'created_at'>;
+
 interface ProductFormModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   product?: Product;
-  onSubmit: (data: ProductFormValues) => void;
+  onSubmit: (data: RequiredProductFormValues) => void;
   isEditing: boolean;
 }
 
@@ -68,8 +69,20 @@ export function ProductFormModal({
     },
   });
 
-  const handleSubmit = (data: ProductFormValues) => {
-    onSubmit(data);
+  const handleSubmit = (formData: ProductFormValues) => {
+    const productData: RequiredProductFormValues = {
+      name: formData.name,
+      description: formData.description,
+      price: formData.price,
+      priority: formData.priority,
+      type: formData.type,
+      quantity: formData.quantity,
+      image_url: formData.image_url || undefined,
+      company: formData.company || undefined,
+      expiry_date: formData.expiry_date || undefined,
+    };
+
+    onSubmit(productData);
     onOpenChange(false);
   };
 

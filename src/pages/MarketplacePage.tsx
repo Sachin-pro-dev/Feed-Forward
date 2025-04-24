@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ProductFilters } from "@/components/marketplace/ProductFilters";
 import { ProductCard } from "@/components/marketplace/ProductCard";
 import { ProductFormModal } from "@/components/marketplace/ProductFormModal";
-import { useMarketplace } from "@/contexts/MarketplaceContext";
+import { useMarketplace, Product } from "@/contexts/MarketplaceContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { Grid2x2, List, Plus, ShoppingBag } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -12,7 +12,7 @@ import { Pagination, PaginationContent, PaginationItem, PaginationLink, Paginati
 import { Link } from "react-router-dom";
 
 export default function MarketplacePage() {
-  const { products, loading } = useMarketplace();
+  const { products, loading, addProduct } = useMarketplace();
   const { isAuthenticated } = useAuth();
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -24,6 +24,12 @@ export default function MarketplacePage() {
   const displayedProducts = products.slice(startIndex, endIndex);
   const totalPages = Math.ceil(products.length / itemsPerPage);
   
+  // Handle form submission with the right types
+  const handleAddProduct = (productData: Omit<Product, 'id' | 'seller_id' | 'seller_name' | 'created_at'>) => {
+    addProduct(productData);
+    setIsFormOpen(false);
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
@@ -193,10 +199,7 @@ export default function MarketplacePage() {
       <ProductFormModal
         open={isFormOpen}
         onOpenChange={setIsFormOpen}
-        onSubmit={(data) => {
-          // Handle via context
-          useMarketplace().addProduct(data);
-        }}
+        onSubmit={handleAddProduct}
         isEditing={false}
       />
     </div>
