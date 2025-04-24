@@ -285,7 +285,7 @@ export default function FoodMap() {
                               />
                             </FormControl>
                             <div className="space-y-1 leading-none">
-                              <FormLabel>Expiring Soon (< 3 hours)</FormLabel>
+                              <FormLabel>Expiring Soon ({"<"} 3 hours)</FormLabel>
                               <FormDescription>
                                 These items need to be claimed quickly
                               </FormDescription>
@@ -306,7 +306,7 @@ export default function FoodMap() {
                               />
                             </FormControl>
                             <div className="space-y-1 leading-none">
-                              <FormLabel>Newly Added (< 1 hour)</FormLabel>
+                              <FormLabel>Newly Added ({"<"} 1 hour)</FormLabel>
                               <FormDescription>
                                 Fresh donations just posted
                               </FormDescription>
