@@ -1,18 +1,19 @@
 
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
-import { LogIn, User, Lock, AtSign } from "lucide-react";
+import { User, Lock, AtSign } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function SignUp() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { signup, isAuthenticated } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [formState, setFormState] = useState({
@@ -20,15 +21,17 @@ export default function SignUp() {
     email: "",
     password: "",
     confirmPassword: "",
-    userType: "individual", // individual or organization
+    userType: "individual",
     agreeTerms: false,
   });
 
-  // Redirect if already authenticated
-  if (isAuthenticated) {
-    navigate("/wallet");
-    return null;
-  }
+  const from = location.state?.from?.pathname || "/";
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(from);
+    }
+  }, [isAuthenticated, navigate, from]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -80,7 +83,7 @@ export default function SignUp() {
         toast.success("Account created successfully!", {
           description: "Welcome to FeedForward!"
         });
-        navigate("/wallet");
+        navigate(from);
       }
     } catch (error: any) {
       toast.error("Sign up failed", {

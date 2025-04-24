@@ -2,6 +2,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from "@/integrations/supabase/client";
 import { User as SupabaseUser, Session } from '@supabase/supabase-js';
+import { useNavigate } from 'react-router-dom';
+import { toast } from "sonner";
 
 type User = {
   id: string;
@@ -33,6 +35,7 @@ const AuthContext = createContext<AuthContextType>({
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const navigate = useNavigate();
   const [authState, setAuthState] = useState<{
     isAuthenticated: boolean;
     user: User | null;
@@ -46,23 +49,35 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   });
 
   useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      updateAuthState(session);
+    // First set up the auth state listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+        updateAuthState(session);
+        toast.success("Successfully signed in!");
+      } else if (event === 'SIGNED_OUT') {
+        setAuthState({
+          isAuthenticated: false,
+          user: null,
+          session: null,
+          loading: false,
+        });
+        toast.success("Successfully signed out!");
+        navigate('/login');
+      }
     });
 
-    // Set up auth listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    // Then check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
       updateAuthState(session);
     });
 
     return () => {
       subscription.unsubscribe();
     };
-  }, []);
+  }, [navigate]);
 
   const updateAuthState = (session: Session | null) => {
-    if (session && session.user) {
+    if (session?.user) {
       const user: User = {
         id: session.user.id,
         email: session.user.email || '',
@@ -93,11 +108,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         password,
       });
       
-      if (error) {
-        return { error };
-      }
-      
-      // Auth state is updated by the listener
+      if (error) return { error };
       return { error: null };
     } catch (error) {
       return { error };
@@ -117,11 +128,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
       });
 
-      if (error) {
-        return { error };
-      }
-
-      // Auth state is updated by the listener
+      if (error) return { error };
       return { error: null };
     } catch (error) {
       return { error };
@@ -130,7 +137,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = async () => {
     await supabase.auth.signOut();
-    // Auth state is updated by the listener
   };
 
   return (
