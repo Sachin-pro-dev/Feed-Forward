@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -10,7 +9,7 @@ import {
 } from "@/components/ui/tabs";
 import { FoodFlagGrid } from "@/components/FoodFlagGrid";
 import { mockFoodFlags, impactStats } from "@/data/mockData";
-import { MapPin, Users, Award, ArrowRight, TrendingUp, Heart, ShieldCheck } from "lucide-react";
+import { MapPin, Users, Award, ArrowRight, TrendingUp, Heart, ShieldCheck, Bell } from "lucide-react";
 
 const formatNumber = (num: number): string => {
   if (num >= 1000000) {
