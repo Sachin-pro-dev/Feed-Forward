@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -8,6 +9,18 @@ import { Layout } from "./components/Layout";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Web3Provider } from "./components/providers/Web3Provider";
+
+// Import page components
+import Home from "./pages/Home";
+import FoodMap from "./pages/FoodMap";
+import FoodDetail from "./pages/FoodDetail";
+import DonatePage from "./pages/DonatePage";
+import NotificationCenter from "./pages/NotificationCenter";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import WalletPage from "./pages/WalletPage";
+import MarketplacePage from "./pages/MarketplacePage";
+import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
