@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import FoodMap from "./pages/FoodMap";
 import FoodDetail from "./pages/FoodDetail";
 import DonatePage from "./pages/DonatePage";
+import NotificationCenter from "./pages/NotificationCenter";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/map" element={<Layout><FoodMap /></Layout>} />
             <Route path="/food/:id" element={<Layout><FoodDetail /></Layout>} />
             <Route path="/donate" element={<Layout><DonatePage /></Layout>} />
+            <Route path="/notifications" element={<Layout><NotificationCenter /></Layout>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<Layout><NotFound /></Layout>} />
           </Routes>
