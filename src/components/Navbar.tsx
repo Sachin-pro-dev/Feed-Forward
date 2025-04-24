@@ -35,6 +35,12 @@ export function Navbar() {
     { title: "Food Map", href: "/map", icon: <MapPin className="h-4 w-4" /> },
     { title: "Donate Food", href: "/donate" },
     { 
+      title: "Farmer Donations", 
+      href: "/farmer-donations",
+      icon: <Award className="h-4 w-4" />,
+      protected: true 
+    },
+    { 
       title: "Marketplace", 
       href: "/marketplace", 
       icon: <ShoppingBag className="h-4 w-4" />,

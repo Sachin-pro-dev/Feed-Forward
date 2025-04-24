@@ -9,7 +9,129 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      donation_sponsors: {
+        Row: {
+          contact_person: string | null
+          created_at: string
+          email: string | null
+          id: string
+          name: string
+          phone: string | null
+          type: string
+        }
+        Insert: {
+          contact_person?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          name: string
+          phone?: string | null
+          type: string
+        }
+        Update: {
+          contact_person?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string
+          phone?: string | null
+          type?: string
+        }
+        Relationships: []
+      }
+      farmer_donations: {
+        Row: {
+          contact_details: Json | null
+          created_at: string
+          crop_name: string
+          id: string
+          location: string
+          market_price: number | null
+          pickup_date: string | null
+          quantity: number
+          reason: string | null
+          status: Database["public"]["Enums"]["crop_status"] | null
+          unit: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          contact_details?: Json | null
+          created_at?: string
+          crop_name: string
+          id?: string
+          location: string
+          market_price?: number | null
+          pickup_date?: string | null
+          quantity: number
+          reason?: string | null
+          status?: Database["public"]["Enums"]["crop_status"] | null
+          unit: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          contact_details?: Json | null
+          created_at?: string
+          crop_name?: string
+          id?: string
+          location?: string
+          market_price?: number | null
+          pickup_date?: string | null
+          quantity?: number
+          reason?: string | null
+          status?: Database["public"]["Enums"]["crop_status"] | null
+          unit?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      sponsor_commitments: {
+        Row: {
+          created_at: string
+          donation_id: string
+          id: string
+          logistics_details: Json | null
+          sponsor_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          donation_id: string
+          id?: string
+          logistics_details?: Json | null
+          sponsor_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          donation_id?: string
+          id?: string
+          logistics_details?: Json | null
+          sponsor_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sponsor_commitments_donation_id_fkey"
+            columns: ["donation_id"]
+            isOneToOne: false
+            referencedRelation: "farmer_donations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sponsor_commitments_sponsor_id_fkey"
+            columns: ["sponsor_id"]
+            isOneToOne: false
+            referencedRelation: "donation_sponsors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -18,7 +140,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      crop_status: "available" | "in_transit" | "delivered" | "expired"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -133,6 +255,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      crop_status: ["available", "in_transit", "delivered", "expired"],
+    },
   },
 } as const

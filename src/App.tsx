@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -21,6 +20,7 @@ import SignUp from "./pages/SignUp";
 import WalletPage from "./pages/WalletPage";
 import MarketplacePage from "./pages/MarketplacePage";
 import NotFound from "./pages/NotFound";
+import FarmerDonations from "./pages/FarmerDonations";
 
 const queryClient = new QueryClient();
 
@@ -53,6 +53,14 @@ const App = () => (
                   <Layout>
                     <ProtectedRoute>
                       <MarketplacePage />
+                    </ProtectedRoute>
+                  </Layout>
+                } />
+                
+                <Route path="/farmer-donations" element={
+                  <Layout>
+                    <ProtectedRoute>
+                      <FarmerDonations />
                     </ProtectedRoute>
                   </Layout>
                 } />
