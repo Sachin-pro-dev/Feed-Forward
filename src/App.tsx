@@ -24,6 +24,7 @@ import MarketplacePage from "./pages/MarketplacePage";
 import NotFound from "./pages/NotFound";
 import FarmerDonations from "./pages/FarmerDonations";
 import SellerDashboardPage from "./pages/SellerDashboardPage";
+import CommunityImpactPage from "./pages/CommunityImpactPage";
 
 const queryClient = new QueryClient();
 
@@ -72,6 +73,12 @@ const App = () => (
                       <ProtectedRoute>
                         <FarmerDonations />
                       </ProtectedRoute>
+                    </Layout>
+                  } />
+
+                  <Route path="/impact" element={
+                    <Layout>
+                      <CommunityImpactPage />
                     </Layout>
                   } />
                   

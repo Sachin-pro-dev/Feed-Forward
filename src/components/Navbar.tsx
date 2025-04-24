@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Bell, User, MapPin, LogOut, Wallet, Settings, ShoppingBag, Award } from "lucide-react";
+import { Menu, Bell, User, MapPin, LogOut, Wallet, Settings, ShoppingBag, Award, BarChart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import { ConnectWallet } from "./ConnectWallet";
@@ -45,6 +45,12 @@ export function Navbar() {
       href: "/marketplace", 
       icon: <ShoppingBag className="h-4 w-4" />,
       protected: true 
+    },
+    { 
+      title: "Community Impact", 
+      href: "/impact", 
+      icon: <BarChart className="h-4 w-4" />,
+      protected: false 
     },
   ];
 
