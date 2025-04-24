@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -28,11 +29,11 @@ const App = () => (
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <AuthProvider>
-          <Web3Provider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
+        <BrowserRouter>
+          <AuthProvider>
+            <Web3Provider>
+              <Toaster />
+              <Sonner />
               <Routes>
                 <Route path="/" element={<Layout><Home /></Layout>} />
                 <Route path="/map" element={<Layout><FoodMap /></Layout>} />
@@ -67,9 +68,9 @@ const App = () => (
                 
                 <Route path="*" element={<Layout><NotFound /></Layout>} />
               </Routes>
-            </BrowserRouter>
-          </Web3Provider>
-        </AuthProvider>
+            </Web3Provider>
+          </AuthProvider>
+        </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
   </React.StrictMode>

@@ -2,7 +2,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from "@/integrations/supabase/client";
 import { User as SupabaseUser, Session } from '@supabase/supabase-js';
-import { useNavigate } from 'react-router-dom';
 import { toast } from "sonner";
 
 type User = {
@@ -35,7 +34,6 @@ const AuthContext = createContext<AuthContextType>({
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const navigate = useNavigate();
   const [authState, setAuthState] = useState<{
     isAuthenticated: boolean;
     user: User | null;
@@ -62,7 +60,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           loading: false,
         });
         toast.success("Successfully signed out!");
-        navigate('/login');
+        // Removed direct navigation to avoid the router issue
       }
     });
 
@@ -74,7 +72,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return () => {
       subscription.unsubscribe();
     };
-  }, [navigate]);
+  }, []);
 
   const updateAuthState = (session: Session | null) => {
     if (session?.user) {
