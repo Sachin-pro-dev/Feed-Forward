@@ -7,11 +7,13 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
-import { LogIn, User, Lock, AtSign, Info } from "lucide-react";
+import { LogIn, User, Lock, AtSign } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function SignUp() {
   const navigate = useNavigate();
+  const { signup, isAuthenticated } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [formState, setFormState] = useState({
     name: "",
@@ -21,6 +23,12 @@ export default function SignUp() {
     userType: "individual", // individual or organization
     agreeTerms: false,
   });
+
+  // Redirect if already authenticated
+  if (isAuthenticated) {
+    navigate("/wallet");
+    return null;
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -35,7 +43,7 @@ export default function SignUp() {
     setFormState((prev) => ({ ...prev, userType: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (formState.password !== formState.confirmPassword) {
@@ -54,24 +62,33 @@ export default function SignUp() {
     
     setIsLoading(true);
     
-    // Mock registration process (would connect to auth backend in production)
-    setTimeout(() => {
-      setIsLoading(false);
-      // Save user session
-      localStorage.setItem("feedforward_auth", JSON.stringify({ 
-        isAuthenticated: true, 
-        user: { 
-          email: formState.email, 
+    try {
+      const { error } = await signup(
+        formState.email, 
+        formState.password, 
+        {
           name: formState.name,
           userType: formState.userType
-        } 
-      }));
+        }
+      );
       
-      toast.success("Account created successfully!", {
-        description: "Welcome to FeedForward!"
+      if (error) {
+        toast.error("Sign up failed", {
+          description: error.message || "Please check your information and try again."
+        });
+      } else {
+        toast.success("Account created successfully!", {
+          description: "Welcome to FeedForward!"
+        });
+        navigate("/wallet");
+      }
+    } catch (error: any) {
+      toast.error("Sign up failed", {
+        description: "An unexpected error occurred. Please try again."
       });
-      navigate("/wallet");
-    }, 1500);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

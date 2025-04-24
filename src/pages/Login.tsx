@@ -5,40 +5,47 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import { LogIn, User, Lock, AtSign } from "lucide-react";
+import { LogIn, AtSign, Lock } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Login() {
   const navigate = useNavigate();
+  const { login, isAuthenticated } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
+  // Redirect if already authenticated
+  if (isAuthenticated) {
+    navigate("/wallet");
+    return null;
+  }
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Mock login process (would connect to auth backend in production)
-    setTimeout(() => {
-      setIsLoading(false);
-      if (email && password) {
-        // Save user session
-        localStorage.setItem("feedforward_auth", JSON.stringify({ 
-          isAuthenticated: true, 
-          user: { email, name: email.split("@")[0] } 
-        }));
-        
+    try {
+      const { error } = await login(email, password);
+      
+      if (error) {
+        toast.error("Login failed", {
+          description: error.message || "Please check your credentials and try again."
+        });
+      } else {
         toast.success("Login successful", {
           description: "Welcome back to FeedForward!"
         });
         navigate("/wallet");
-      } else {
-        toast.error("Login failed", {
-          description: "Please check your credentials and try again."
-        });
       }
-    }, 1000);
+    } catch (error: any) {
+      toast.error("Login failed", {
+        description: "An unexpected error occurred. Please try again."
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

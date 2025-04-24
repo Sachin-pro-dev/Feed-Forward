@@ -1,6 +1,6 @@
 
+import { Button } from "@/components/ui/button";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { Button } from './ui/button';
 
 export function ConnectWallet() {
   return (
@@ -13,6 +13,8 @@ export function ConnectWallet() {
         openConnectModal,
         mounted,
       }) => {
+        // Note: If your app doesn't use authentication, you
+        // can remove all 'authenticationStatus' checks
         const ready = mounted;
         const connected = ready && account && chain;
 
@@ -20,52 +22,42 @@ export function ConnectWallet() {
           <div
             {...(!ready && {
               'aria-hidden': true,
-              style: {
+              'style': {
                 opacity: 0,
                 pointerEvents: 'none',
                 userSelect: 'none',
               },
             })}
+            className="flex items-center gap-2"
           >
             {(() => {
               if (!connected) {
                 return (
-                  <Button onClick={openConnectModal} className="btn-gradient">
+                  <Button
+                    variant="outline"
+                    className="bg-gradient-to-r from-ff-green to-ff-orange bg-clip-text text-transparent border-ff-green hover:border-ff-orange"
+                    onClick={openConnectModal}
+                  >
                     Connect Wallet
                   </Button>
                 );
               }
 
-              if (chain.unsupported) {
-                return (
-                  <Button onClick={openChainModal} variant="destructive">
-                    Wrong network
-                  </Button>
-                );
-              }
-
               return (
-                <div className="flex gap-2">
+                <div className="flex items-center gap-2">
                   <Button
                     onClick={openChainModal}
                     variant="outline"
-                    className="hidden sm:flex"
+                    className="flex items-center gap-1 px-2 py-1 h-9"
                   >
-                    {chain.hasIcon && (
-                      <div className="mr-2">
-                        {chain.iconUrl && (
-                          <img
-                            alt={chain.name ?? 'Chain icon'}
-                            src={chain.iconUrl}
-                            className="h-4 w-4"
-                          />
-                        )}
-                      </div>
-                    )}
                     {chain.name}
                   </Button>
 
-                  <Button onClick={openAccountModal} variant="outline">
+                  <Button
+                    onClick={openAccountModal}
+                    variant="outline"
+                    className="flex items-center gap-1 px-2 py-1 h-9 border-ff-green text-ff-green hover:border-ff-orange hover:text-ff-orange"
+                  >
                     {account.displayName}
                     {account.displayBalance ? ` (${account.displayBalance})` : ''}
                   </Button>

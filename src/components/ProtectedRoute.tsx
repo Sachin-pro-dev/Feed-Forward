@@ -1,7 +1,8 @@
 
-import { ReactNode } from "react";
-import { Navigate } from "react-router-dom";
+import { ReactNode, useEffect } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -10,6 +11,15 @@ interface ProtectedRouteProps {
 
 export function ProtectedRoute({ children, redirectTo = "/login" }: ProtectedRouteProps) {
   const { isAuthenticated, loading } = useAuth();
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    if (!loading && !isAuthenticated) {
+      toast.error("Authentication required", {
+        description: "Please sign in to access this page"
+      });
+    }
+  }, [isAuthenticated, loading]);
 
   if (loading) {
     // Show loading state while checking authentication
