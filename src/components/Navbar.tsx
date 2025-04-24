@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -17,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
+import { ThemeSwitcher } from "./ThemeSwitcher";
 
 interface NavItem {
   title: string;
@@ -88,6 +88,7 @@ export function Navbar() {
 
         <div className="flex items-center gap-4">
           <ConnectWallet />
+          <ThemeSwitcher />
           
           <Button 
             variant="ghost" 
