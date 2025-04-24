@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -6,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { AuthProvider } from "./contexts/AuthContext";
+import { ProfileProvider } from "./contexts/ProfileContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Web3Provider } from "./components/providers/Web3Provider";
 import { MarketplaceProvider } from "./contexts/MarketplaceContext";
@@ -25,6 +27,7 @@ import NotFound from "./pages/NotFound";
 import FarmerDonations from "./pages/FarmerDonations";
 import SellerDashboardPage from "./pages/SellerDashboardPage";
 import CommunityImpactPage from "./pages/CommunityImpactPage";
+import ProfilePage from "./pages/ProfilePage";
 
 const queryClient = new QueryClient();
 
@@ -35,58 +38,68 @@ const App = () => (
         <ThemeProvider>
           <BrowserRouter>
             <AuthProvider>
-              <Web3Provider>
-                <MarketplaceProvider>
-                  <Toaster />
-                  <Sonner />
-                  <Routes>
-                    <Route path="/" element={<Layout><Home /></Layout>} />
-                    <Route path="/map" element={<Layout><FoodMap /></Layout>} />
-                    <Route path="/food/:id" element={<Layout><FoodDetail /></Layout>} />
-                    <Route path="/donate" element={<Layout><DonatePage /></Layout>} />
-                    <Route path="/notifications" element={<Layout><NotificationCenter /></Layout>} />
-                    <Route path="/login" element={<Layout><Login /></Layout>} />
-                    <Route path="/signup" element={<Layout><SignUp /></Layout>} />
-                    
-                    <Route path="/wallet" element={
-                      <Layout>
-                        <ProtectedRoute>
-                          <WalletPage />
-                        </ProtectedRoute>
-                      </Layout>
-                    } />
-                    <Route path="/marketplace" element={
-                      <Layout>
-                        <MarketplacePage />
-                      </Layout>
-                    } />
-                    
-                    <Route path="/seller-dashboard" element={
-                      <Layout>
-                        <ProtectedRoute>
-                          <SellerDashboardPage />
-                        </ProtectedRoute>
-                      </Layout>
-                    } />
-                    
-                    <Route path="/farmer-donations" element={
-                      <Layout>
-                        <ProtectedRoute>
-                          <FarmerDonations />
-                        </ProtectedRoute>
-                      </Layout>
-                    } />
+              <ProfileProvider>
+                <Web3Provider>
+                  <MarketplaceProvider>
+                    <Toaster />
+                    <Sonner />
+                    <Routes>
+                      <Route path="/" element={<Layout><Home /></Layout>} />
+                      <Route path="/map" element={<Layout><FoodMap /></Layout>} />
+                      <Route path="/food/:id" element={<Layout><FoodDetail /></Layout>} />
+                      <Route path="/donate" element={<Layout><DonatePage /></Layout>} />
+                      <Route path="/notifications" element={<Layout><NotificationCenter /></Layout>} />
+                      <Route path="/login" element={<Layout><Login /></Layout>} />
+                      <Route path="/signup" element={<Layout><SignUp /></Layout>} />
+                      
+                      <Route path="/profile" element={
+                        <Layout>
+                          <ProtectedRoute>
+                            <ProfilePage />
+                          </ProtectedRoute>
+                        </Layout>
+                      } />
+                      
+                      <Route path="/wallet" element={
+                        <Layout>
+                          <ProtectedRoute>
+                            <WalletPage />
+                          </ProtectedRoute>
+                        </Layout>
+                      } />
+                      <Route path="/marketplace" element={
+                        <Layout>
+                          <MarketplacePage />
+                        </Layout>
+                      } />
+                      
+                      <Route path="/seller-dashboard" element={
+                        <Layout>
+                          <ProtectedRoute>
+                            <SellerDashboardPage />
+                          </ProtectedRoute>
+                        </Layout>
+                      } />
+                      
+                      <Route path="/farmer-donations" element={
+                        <Layout>
+                          <ProtectedRoute>
+                            <FarmerDonations />
+                          </ProtectedRoute>
+                        </Layout>
+                      } />
 
-                    <Route path="/impact" element={
-                      <Layout>
-                        <CommunityImpactPage />
-                      </Layout>
-                    } />
-                    
-                    <Route path="*" element={<Layout><NotFound /></Layout>} />
-                  </Routes>
-                </MarketplaceProvider>
-              </Web3Provider>
+                      <Route path="/impact" element={
+                        <Layout>
+                          <CommunityImpactPage />
+                        </Layout>
+                      } />
+                      
+                      <Route path="*" element={<Layout><NotFound /></Layout>} />
+                    </Routes>
+                  </MarketplaceProvider>
+                </Web3Provider>
+              </ProfileProvider>
             </AuthProvider>
           </BrowserRouter>
         </ThemeProvider>
