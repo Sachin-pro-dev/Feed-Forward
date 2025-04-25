@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -67,7 +66,7 @@ export function ClaimForm({ foodFlag, open, onOpenChange, onSuccess }: ClaimForm
       pickupPersonName: "",
       pickupContactNumber: "",
       transportMode: "On Foot",
-      termsAgreed: false,
+      termsAgreed: undefined, 
       additionalNotes: "",
     },
   });
