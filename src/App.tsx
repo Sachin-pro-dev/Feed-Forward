@@ -16,8 +16,8 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const App = () => (
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
+  <QueryClientProvider client={queryClient}>
+    <React.StrictMode>
       <TooltipProvider>
         <Toaster />
         <Sonner />
@@ -33,8 +33,8 @@ const App = () => (
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
-    </QueryClientProvider>
-  </React.StrictMode>
+    </React.StrictMode>
+  </QueryClientProvider>
 );
 
 export default App;
