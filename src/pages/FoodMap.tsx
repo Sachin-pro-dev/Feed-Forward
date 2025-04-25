@@ -112,51 +112,53 @@ export default function FoodMap() {
         </div>
       </div>
       
-      <TabsContent value="map" className="mt-0 animate-fade-in">
-        <div className="relative rounded-lg overflow-hidden border h-[500px] mb-6">
-          <div className="absolute inset-0 bg-muted flex items-center justify-center">
-            <div className="text-center">
-              <MapPin className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
-              <p className="text-lg font-medium">Interactive Map</p>
-              <p className="text-muted-foreground">This would be an interactive map showing food flags</p>
+      <Tabs value={view} onValueChange={(v) => setView(v as "map" | "list")}>
+        <TabsContent value="map" className="mt-0 animate-fade-in">
+          <div className="relative rounded-lg overflow-hidden border h-[500px] mb-6">
+            <div className="absolute inset-0 bg-muted flex items-center justify-center">
+              <div className="text-center">
+                <MapPin className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
+                <p className="text-lg font-medium">Interactive Map</p>
+                <p className="text-muted-foreground">This would be an interactive map showing food flags</p>
+              </div>
+            </div>
+            
+            {/* This would be replaced with an actual map component */}
+            <div className="absolute bottom-4 left-4 right-4 bg-background p-4 rounded-lg shadow-lg border">
+              <h3 className="font-medium mb-2">6 FoodFlags Found Nearby</h3>
+              <div className="flex overflow-x-auto gap-4 pb-2">
+                {mockFoodFlags.slice(0, 3).map((flag) => (
+                  <div key={flag.id} className="min-w-[200px] p-3 bg-muted rounded-md">
+                    <div className="font-medium truncate">{flag.title}</div>
+                    <div className="text-sm text-muted-foreground">{flag.distance}</div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
           
-          {/* This would be replaced with an actual map component */}
-          <div className="absolute bottom-4 left-4 right-4 bg-background p-4 rounded-lg shadow-lg border">
-            <h3 className="font-medium mb-2">6 FoodFlags Found Nearby</h3>
-            <div className="flex overflow-x-auto gap-4 pb-2">
-              {mockFoodFlags.slice(0, 3).map((flag) => (
-                <div key={flag.id} className="min-w-[200px] p-3 bg-muted rounded-md">
-                  <div className="font-medium truncate">{flag.title}</div>
-                  <div className="text-sm text-muted-foreground">{flag.distance}</div>
-                </div>
-              ))}
+          <h3 className="text-xl font-medium mb-4">Available Near You</h3>
+          <FoodFlagGrid foodFlags={filteredFlags.slice(0, 3)} />
+        </TabsContent>
+        
+        <TabsContent value="list" className="mt-0 animate-fade-in">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-xl font-medium">All Available Food ({filteredFlags.length})</h3>
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" className="h-8 w-8 p-0">
+                <Grid3X3 className="h-4 w-4" />
+                <span className="sr-only">Grid View</span>
+              </Button>
+              <Button variant="outline" size="sm" className="h-8 w-8 p-0">
+                <List className="h-4 w-4" />
+                <span className="sr-only">List View</span>
+              </Button>
             </div>
           </div>
-        </div>
-        
-        <h3 className="text-xl font-medium mb-4">Available Near You</h3>
-        <FoodFlagGrid foodFlags={filteredFlags.slice(0, 3)} />
-      </TabsContent>
-      
-      <TabsContent value="list" className="mt-0 animate-fade-in">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-medium">All Available Food ({filteredFlags.length})</h3>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" className="h-8 w-8 p-0">
-              <Grid3X3 className="h-4 w-4" />
-              <span className="sr-only">Grid View</span>
-            </Button>
-            <Button variant="outline" size="sm" className="h-8 w-8 p-0">
-              <List className="h-4 w-4" />
-              <span className="sr-only">List View</span>
-            </Button>
-          </div>
-        </div>
-        
-        <FoodFlagGrid foodFlags={filteredFlags} variant="compact" />
-      </TabsContent>
+          
+          <FoodFlagGrid foodFlags={filteredFlags} variant="compact" />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

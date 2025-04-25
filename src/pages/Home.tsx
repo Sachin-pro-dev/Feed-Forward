@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -130,16 +131,16 @@ export default function Home() {
                 <TabsTrigger value="nearby">Nearby</TabsTrigger>
                 <TabsTrigger value="trending">Trending</TabsTrigger>
               </TabsList>
+            
+              <TabsContent value="nearby" className="mt-0">
+                <FoodFlagGrid foodFlags={nearbyFlags} />
+              </TabsContent>
+              
+              <TabsContent value="trending" className="mt-0">
+                <FoodFlagGrid foodFlags={trendingFlags} />
+              </TabsContent>
             </Tabs>
           </div>
-          
-          <TabsContent value="nearby" className="mt-0">
-            <FoodFlagGrid foodFlags={nearbyFlags} />
-          </TabsContent>
-          
-          <TabsContent value="trending" className="mt-0">
-            <FoodFlagGrid foodFlags={trendingFlags} />
-          </TabsContent>
           
           <div className="text-center mt-8">
             <Button asChild variant="outline" className="group">
