@@ -65,18 +65,34 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ child
         .from('profiles')
         .select('*')
         .eq('id', user.id)
-        .single();
+        .maybeSingle();
 
       if (fetchError) {
         throw fetchError;
       }
 
       if (data) {
-        // Ensure preferences is an object
-        const preferences = data.preferences || {};
+        // Parse preferences to ensure it's an object
+        let parsedPreferences = data.preferences || {};
+        
+        // If preferences is a string, try to parse it as JSON
+        if (typeof data.preferences === 'string') {
+          try {
+            parsedPreferences = JSON.parse(data.preferences);
+          } catch (e) {
+            console.error('Failed to parse preferences string:', e);
+            parsedPreferences = {}; // Fallback to empty object
+          }
+        }
+        
+        // If it's not an object after parsing, use empty object
+        if (typeof parsedPreferences !== 'object' || parsedPreferences === null || Array.isArray(parsedPreferences)) {
+          parsedPreferences = {};
+        }
+
         setProfile({
           ...data,
-          preferences
+          preferences: parsedPreferences as Profile['preferences']
         });
       }
     } catch (err: any) {
