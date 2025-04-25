@@ -28,6 +28,10 @@ import FarmerDonations from "./pages/FarmerDonations";
 import SellerDashboardPage from "./pages/SellerDashboardPage";
 import CommunityImpactPage from "./pages/CommunityImpactPage";
 import ProfilePage from "./pages/ProfilePage";
+import AboutPage from "./pages/AboutPage";
+import VolunteerPage from "./pages/VolunteerPage";
+import AIInventoryPage from "./pages/AIInventoryPage";
+import ExplorePage from "./pages/ExplorePage";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +55,18 @@ const App = () => (
                       <Route path="/notifications" element={<Layout><NotificationCenter /></Layout>} />
                       <Route path="/login" element={<Layout><Login /></Layout>} />
                       <Route path="/signup" element={<Layout><SignUp /></Layout>} />
+                      
+                      {/* New Pages */}
+                      <Route path="/about" element={<Layout><AboutPage /></Layout>} />
+                      <Route path="/volunteer" element={<Layout><VolunteerPage /></Layout>} />
+                      <Route path="/ai-inventory" element={
+                        <Layout>
+                          <ProtectedRoute>
+                            <AIInventoryPage />
+                          </ProtectedRoute>
+                        </Layout>
+                      } />
+                      <Route path="/explore" element={<Layout><ExplorePage /></Layout>} />
                       
                       <Route path="/profile" element={
                         <Layout>

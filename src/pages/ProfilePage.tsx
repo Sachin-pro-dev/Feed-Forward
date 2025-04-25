@@ -12,9 +12,10 @@ import { User, Edit, MapPin, Globe, FileText, User2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 import ProfileSettings from '@/components/profile/ProfileSettings';
+import FeedCoinStats from '@/components/profile/FeedCoinStats';
 
 const ProfilePage = () => {
-  const { profile, loading, updateProfile, uploading, uploadAvatar } = useProfile();
+  const { profile, loading, error, updateProfile, uploading, uploadAvatar } = useProfile();
   const { user } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
@@ -109,10 +110,11 @@ const ProfilePage = () => {
     : user?.email?.charAt(0).toUpperCase() || 'U';
 
   return (
-    <div className="container max-w-4xl py-8 mx-auto">
+    <div className="container max-w-6xl py-8 mx-auto">
       <Tabs defaultValue="profile" className="space-y-4">
         <TabsList>
           <TabsTrigger value="profile">Profile</TabsTrigger>
+          <TabsTrigger value="feedcoin">FeedCoin & Impact</TabsTrigger>
           <TabsTrigger value="settings">Settings</TabsTrigger>
         </TabsList>
         
@@ -271,6 +273,10 @@ const ProfilePage = () => {
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+        
+        <TabsContent value="feedcoin">
+          <FeedCoinStats />
         </TabsContent>
         
         <TabsContent value="settings">

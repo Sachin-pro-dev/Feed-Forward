@@ -2,13 +2,18 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "react-router-dom";
-import { Home, MapPin, Heart, BarChart, ChevronLeft, ChevronRight } from "lucide-react";
+import { Home, MapPin, Heart, BarChart, ChevronLeft, ChevronRight, Info, Users, User, Database, Globe } from "lucide-react";
 import { useState } from "react";
 
 const menuItems = [
   { icon: Home, label: "Home", to: "/" },
   { icon: MapPin, label: "Food Map", to: "/map" },
   { icon: Heart, label: "Donate Food", to: "/donate" },
+  { icon: Info, label: "About", to: "/about" },
+  { icon: Users, label: "Volunteer", to: "/volunteer" },
+  { icon: User, label: "Profile", to: "/profile" },
+  { icon: Database, label: "AI Inventory", to: "/ai-inventory" },
+  { icon: Globe, label: "Explore", to: "/explore" },
   { icon: BarChart, label: "Community Impact", to: "/impact" },
 ];
 
@@ -22,7 +27,7 @@ export function Sidebar() {
       "transition-all duration-300"
     )}>
       <div className="flex flex-col h-full p-2">
-        <nav className="space-y-1 flex-1">
+        <nav className="space-y-1 flex-1 overflow-y-auto">
           {menuItems.map((item) => (
             <NavLink
               key={item.to}
