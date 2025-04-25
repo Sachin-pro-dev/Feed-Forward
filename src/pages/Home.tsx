@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -8,6 +7,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { FoodFlagGrid } from "@/components/FoodFlagGrid";
 import { mockFoodFlags, impactStats } from "@/data/mockData";
 import { MapPin, Users, Award, ArrowRight, TrendingUp, Heart, ShieldCheck, Bell } from "lucide-react";
@@ -28,6 +28,45 @@ export default function Home() {
   const nearbyFlags = mockFoodFlags.slice(0, 3);
   const trendingFlags = [...mockFoodFlags].reverse().slice(0, 3);
   
+  const impactMetrics = [
+    {
+      icon: Heart,
+      label: "Meals Donated",
+      value: formatNumber(impactStats.mealsDonated),
+      description: "Nutritious meals provided to those in need through our platform"
+    },
+    {
+      icon: TrendingUp,
+      label: "CO₂ Prevented",
+      value: formatNumber(impactStats.co2Prevented) + "kg",
+      description: "Reduction in carbon emissions by preventing food waste"
+    },
+    {
+      icon: Users,
+      label: "Active Donors",
+      value: formatNumber(impactStats.activeDonors),
+      description: "Dedicated food donors making a difference in their communities"
+    }
+  ];
+
+  const feasibilityCards = [
+    {
+      title: "Easy Integration",
+      description: "Simple onboarding process for both donors and recipients",
+      image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81"
+    },
+    {
+      title: "Real-time Updates",
+      description: "Instant notifications and live tracking of food donations",
+      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6"
+    },
+    {
+      title: "Community Impact",
+      description: "Measurable reduction in food waste and hunger",
+      image: "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b"
+    }
+  ];
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
@@ -84,35 +123,34 @@ export default function Home() {
         </div>
       </section>
       
-      {/* Stats Section */}
+      {/* Stats Section with Hover Cards */}
       <section className="bg-muted py-16">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">Our Community Impact</h2>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
-            <div className="flex flex-col items-center text-center animate-fade-in" style={{animationDelay: "0.2s"}}>
-              <div className="h-16 w-16 rounded-full bg-ff-green/20 flex items-center justify-center mb-4">
-                <Heart className="h-8 w-8 text-ff-green" />
-              </div>
-              <span className="text-3xl md:text-4xl font-bold">{formatNumber(impactStats.mealsDonated)}</span>
-              <span className="text-muted-foreground">Meals Donated</span>
-            </div>
-            
-            <div className="flex flex-col items-center text-center animate-fade-in" style={{animationDelay: "0.3s"}}>
-              <div className="h-16 w-16 rounded-full bg-ff-orange/20 flex items-center justify-center mb-4">
-                <TrendingUp className="h-8 w-8 text-ff-orange" />
-              </div>
-              <span className="text-3xl md:text-4xl font-bold">{formatNumber(impactStats.co2Prevented)}</span>
-              <span className="text-muted-foreground">kg CO₂ Prevented</span>
-            </div>
-            
-            <div className="flex flex-col items-center text-center animate-fade-in col-span-2 md:col-span-1" style={{animationDelay: "0.4s"}}>
-              <div className="h-16 w-16 rounded-full bg-ff-yellow/20 flex items-center justify-center mb-4">
-                <Users className="h-8 w-8 text-ff-yellow" />
-              </div>
-              <span className="text-3xl md:text-4xl font-bold">{formatNumber(impactStats.activeDonors)}</span>
-              <span className="text-muted-foreground">Active Food Donors</span>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {impactMetrics.map((metric, index) => (
+              <HoverCard key={metric.label}>
+                <HoverCardTrigger asChild>
+                  <div className="flex flex-col items-center text-center animate-fade-in cursor-pointer" 
+                       style={{animationDelay: `${0.2 * (index + 1)}s`}}>
+                    <div className="h-16 w-16 rounded-full bg-ff-green/20 flex items-center justify-center mb-4">
+                      <metric.icon className="h-8 w-8 text-ff-green" />
+                    </div>
+                    <span className="text-3xl md:text-4xl font-bold">{metric.value}</span>
+                    <span className="text-muted-foreground">{metric.label}</span>
+                  </div>
+                </HoverCardTrigger>
+                <HoverCardContent className="w-80">
+                  <div className="flex justify-between space-x-4">
+                    <div>
+                      <h4 className="text-sm font-semibold">{metric.label}</h4>
+                      <p className="text-sm text-muted-foreground">{metric.description}</p>
+                    </div>
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
+            ))}
           </div>
         </div>
       </section>
@@ -257,6 +295,41 @@ export default function Home() {
                 Monitor your environmental and social impact with detailed metrics.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Feasibility Section */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-4">Project Feasibility</h2>
+          <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-12">
+            Our platform is designed for seamless integration and maximum impact
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {feasibilityCards.map((card, index) => (
+              <HoverCard key={card.title}>
+                <HoverCardTrigger asChild>
+                  <div className="relative group cursor-pointer overflow-hidden rounded-lg">
+                    <img
+                      src={card.image}
+                      alt={card.title}
+                      className="w-full h-48 object-cover transition-transform group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                      <h3 className="text-white text-xl font-semibold">{card.title}</h3>
+                    </div>
+                  </div>
+                </HoverCardTrigger>
+                <HoverCardContent className="w-80">
+                  <div className="flex flex-col space-y-2">
+                    <h4 className="text-sm font-semibold">{card.title}</h4>
+                    <p className="text-sm text-muted-foreground">{card.description}</p>
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
+            ))}
           </div>
         </div>
       </section>
