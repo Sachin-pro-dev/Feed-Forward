@@ -7,10 +7,10 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { FoodFlagGrid } from "@/components/FoodFlagGrid";
 import { mockFoodFlags, impactStats } from "@/data/mockData";
 import { MapPin, Users, Award, ArrowRight, TrendingUp, Heart, ShieldCheck, Bell } from "lucide-react";
+import FrameworkSection from "@/components/FrameworkSection";
 
 const formatNumber = (num: number): string => {
   if (num >= 1000000) {
@@ -130,26 +130,34 @@ export default function Home() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {impactMetrics.map((metric, index) => (
-              <HoverCard key={metric.label}>
-                <HoverCardTrigger asChild>
-                  <div className="flex flex-col items-center text-center animate-fade-in cursor-pointer" 
-                       style={{animationDelay: `${0.2 * (index + 1)}s`}}>
-                    <div className="h-16 w-16 rounded-full bg-ff-green/20 flex items-center justify-center mb-4">
-                      <metric.icon className="h-8 w-8 text-ff-green" />
-                    </div>
-                    <span className="text-3xl md:text-4xl font-bold">{metric.value}</span>
-                    <span className="text-muted-foreground">{metric.label}</span>
-                  </div>
-                </HoverCardTrigger>
-                <HoverCardContent className="w-80">
-                  <div className="flex justify-between space-x-4">
-                    <div>
-                      <h4 className="text-sm font-semibold">{metric.label}</h4>
-                      <p className="text-sm text-muted-foreground">{metric.description}</p>
-                    </div>
-                  </div>
-                </HoverCardContent>
-              </HoverCard>
+              
+                
+                  
+                    
+                      
+                        
+                          
+                            
+                          
+                          
+                            {metric.value}
+                          
+                          {metric.label}
+                        
+                      
+                    
+                  
+                  
+                    
+                      
+                        {metric.label}
+                      
+                        {metric.description}
+                      
+                    
+                  
+                
+              
             ))}
           </div>
         </div>
@@ -191,6 +199,9 @@ export default function Home() {
         </div>
       </section>
       
+      {/* Framework Section */}
+      <FrameworkSection />
+      
       {/* How It Works */}
       <section className="bg-muted py-16">
         <div className="container mx-auto px-4">
@@ -200,35 +211,45 @@ export default function Home() {
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-background p-6 rounded-lg shadow-sm animate-fade-in" style={{animationDelay: "0.2s"}}>
-              <div className="h-12 w-12 rounded-full bg-ff-green/20 flex items-center justify-center mb-4">
-                <MapPin className="h-6 w-6 text-ff-green" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">1. Create a FoodFlag</h3>
-              <p className="text-muted-foreground">
-                Donors post details about surplus food including type, quantity, and pickup location.
-              </p>
-            </div>
             
-            <div className="bg-background p-6 rounded-lg shadow-sm animate-fade-in" style={{animationDelay: "0.3s"}}>
-              <div className="h-12 w-12 rounded-full bg-ff-orange/20 flex items-center justify-center mb-4">
-                <Users className="h-6 w-6 text-ff-orange" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">2. Connect with Recipients</h3>
-              <p className="text-muted-foreground">
-                Recipients are notified of nearby available food and can claim it for pickup.
-              </p>
-            </div>
+              
+                
+                  
+                
+                
+                  1. Create a FoodFlag
+                
+                
+                  Donors post details about surplus food including type, quantity, and pickup location.
+                
+              
             
-            <div className="bg-background p-6 rounded-lg shadow-sm animate-fade-in" style={{animationDelay: "0.4s"}}>
-              <div className="h-12 w-12 rounded-full bg-ff-yellow/20 flex items-center justify-center mb-4">
-                <Award className="h-6 w-6 text-ff-yellow" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">3. Earn Rewards</h3>
-              <p className="text-muted-foreground">
-                Both donors and recipients earn FeedCoins that can be redeemed for various rewards.
-              </p>
-            </div>
+            
+              
+                
+                  
+                
+                
+                  2. Connect with Recipients
+                
+                
+                  Recipients are notified of nearby available food and can claim it for pickup.
+                
+              
+            
+            
+              
+                
+                  
+                
+                
+                  3. Earn Rewards
+                
+                
+                  Both donors and recipients earn FeedCoins that can be redeemed for various rewards.
+                
+              
+            
           </div>
           
           <div className="text-center mt-12">
@@ -248,109 +269,174 @@ export default function Home() {
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="p-6 border rounded-lg hover:shadow-md transition-shadow animate-fade-in" style={{animationDelay: "0.2s"}}>
-              <ShieldCheck className="h-8 w-8 text-ff-green mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Blockchain Verification</h3>
-              <p className="text-muted-foreground">
-                Immutable records of all donations for complete transparency and trust.
-              </p>
-            </div>
             
-            <div className="p-6 border rounded-lg hover:shadow-md transition-shadow animate-fade-in" style={{animationDelay: "0.3s"}}>
-              <MapPin className="h-8 w-8 text-ff-orange mb-4" />
-              <h3 className="text-xl font-semibold mb-2">GPS Navigation</h3>
-              <p className="text-muted-foreground">
-                Real-time directions to pickup locations for efficient food rescue.
-              </p>
-            </div>
+              
+                
+                  
+                
+                
+                  Blockchain Verification
+                
+                
+                  Immutable records of all donations for complete transparency and trust.
+                
+              
             
-            <div className="p-6 border rounded-lg hover:shadow-md transition-shadow animate-fade-in" style={{animationDelay: "0.4s"}}>
-              <Award className="h-8 w-8 text-ff-yellow mb-4" />
-              <h3 className="text-xl font-semibold mb-2">FeedCoin Rewards</h3>
-              <p className="text-muted-foreground">
-                Earn tokens for your contributions and redeem them for various perks.
-              </p>
-            </div>
             
-            <div className="p-6 border rounded-lg hover:shadow-md transition-shadow animate-fade-in" style={{animationDelay: "0.5s"}}>
-              <Bell className="h-8 w-8 text-ff-green mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Real-time Alerts</h3>
-              <p className="text-muted-foreground">
-                Get notified instantly when food is available in your area.
-              </p>
-            </div>
+              
+                
+                  
+                
+                
+                  GPS Navigation
+                
+                
+                  Real-time directions to pickup locations for efficient food rescue.
+                
+              
             
-            <div className="p-6 border rounded-lg hover:shadow-md transition-shadow animate-fade-in" style={{animationDelay: "0.6s"}}>
-              <Users className="h-8 w-8 text-ff-orange mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Community Governance</h3>
-              <p className="text-muted-foreground">
-                Participate in platform decisions through our DAO structure.
-              </p>
-            </div>
             
-            <div className="p-6 border rounded-lg hover:shadow-md transition-shadow animate-fade-in" style={{animationDelay: "0.7s"}}>
-              <TrendingUp className="h-8 w-8 text-ff-yellow mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Impact Tracking</h3>
-              <p className="text-muted-foreground">
-                Monitor your environmental and social impact with detailed metrics.
-              </p>
-            </div>
+              
+                
+                  
+                
+                
+                  FeedCoin Rewards
+                
+                
+                  Earn tokens for your contributions and redeem them for various perks.
+                
+              
+            
+            
+              
+                
+                  
+                
+                
+                  Real-time Alerts
+                
+                
+                  Get notified instantly when food is available in your area.
+                
+              
+            
+            
+              
+                
+                  
+                
+                
+                  Community Governance
+                
+                
+                  Participate in platform decisions through our DAO structure.
+                
+              
+            
+            
+              
+                
+                  
+                
+                
+                  Impact Tracking
+                
+                
+                  Monitor your environmental and social impact with detailed metrics.
+                
+              
+            
           </div>
         </div>
       </section>
       
       {/* Feasibility Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-4">Project Feasibility</h2>
-          <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-12">
-            Our platform is designed for seamless integration and maximum impact
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {feasibilityCards.map((card, index) => (
-              <HoverCard key={card.title}>
-                <HoverCardTrigger asChild>
-                  <div className="relative group cursor-pointer overflow-hidden rounded-lg">
-                    <img
-                      src={card.image}
-                      alt={card.title}
-                      className="w-full h-48 object-cover transition-transform group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-                      <h3 className="text-white text-xl font-semibold">{card.title}</h3>
-                    </div>
-                  </div>
-                </HoverCardTrigger>
-                <HoverCardContent className="w-80">
-                  <div className="flex flex-col space-y-2">
-                    <h4 className="text-sm font-semibold">{card.title}</h4>
-                    <p className="text-sm text-muted-foreground">{card.description}</p>
-                  </div>
-                </HoverCardContent>
-              </HoverCard>
-            ))}
-          </div>
-        </div>
-      </section>
       
-      {/* CTA Section */}
-      <section className="relative py-16 bg-gradient-to-r from-ff-green to-ff-orange text-white">
-        <div className="container mx-auto px-4 flex flex-col items-center text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Make a Difference?</h2>
-          <p className="max-w-2xl text-lg mb-8">
-            Join our growing community of food rescuers today and start making a positive impact on your community and the environment.
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Button asChild size="lg" className="bg-white text-ff-green hover:bg-white/90">
-              <Link to="/signup">Sign Up Now</Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="border-white text-white hover:bg-white/20">
-              <Link to="/about">Learn More</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-}
+      
+      
+        
+          
+            
+              
+                
+                  
+                    
+                      
+                      
+                        
+                      
+                      
+                        
+                          
+                            
+                              
+                            
+                            
+                              Learn More
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+      
+      
+      
+        
+          
+            
+              
+                
+                  
+                    
+                      
+                      
+                        
+                      
+                      
+                        
+                          
+                            
+                              
+                            
+                            
+                              Learn More
+                            
+                          
+                        
+                      
+                    
+                  
+                
+              
+            
+          
+        
+      
+      
+      
+        
+          
+            
+              
+                
+                  
+                    
+                      
+                      
+                        
+                      
+                      
+                        
+                          
+                            
+                              
+                            
+                            
+                              Learn More
