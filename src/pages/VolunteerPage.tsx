@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { 
   Card, 
@@ -22,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import { Checkbox } from "@/components/ui/checkbox";
 import { 
   Select, 
   SelectContent, 
@@ -46,7 +46,6 @@ import * as z from "zod";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
 
-// Sample data for active volunteer opportunities
 const volunteerOpportunities = [
   {
     id: 1,
@@ -100,7 +99,6 @@ const volunteerOpportunities = [
   },
 ];
 
-// Form validation schema
 const volunteerFormSchema = z.object({
   fullName: z.string().min(2, { message: "Full name must be at least 2 characters" }),
   contactNumber: z.string().min(10, { message: "Please enter a valid phone number" }),
@@ -145,7 +143,6 @@ const VolunteerPage: React.FC = () => {
     setIsSubmitting(true);
     
     try {
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
       console.log("Form Data:", data);
       
