@@ -1,6 +1,6 @@
 
 import { Link, useLocation } from "react-router-dom";
-import { MapPin, Award, ShoppingBag, BarChart, Bot, FileCheck, Globe, Database } from "lucide-react";
+import { MapPin, Award, ShoppingBag, BarChart, Bot, FileCheck, Globe, Database, BarChart4 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import { Badge } from "@/components/ui/badge";
@@ -41,7 +41,7 @@ export const navItems: NavItem[] = [
   { 
     title: "CSR Dashboard", 
     href: "/csr-dashboard", 
-    icon: <BarChart className="h-4 w-4" />,
+    icon: <BarChart4 className="h-4 w-4" />,
     badge: "New"
   },
 ];

@@ -2,7 +2,7 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "react-router-dom";
-import { Home, MapPin, Heart, BarChart, ChevronLeft, ChevronRight, Info, Users, User, Database, Globe, Bot, FileCheck } from "lucide-react";
+import { Home, MapPin, Heart, BarChart, ChevronLeft, ChevronRight, Info, Users, User, Database, Globe, Bot, FileCheck, BarChart4 } from "lucide-react";
 import { useState } from "react";
 
 const menuItems = [
@@ -15,6 +15,7 @@ const menuItems = [
   { icon: BarChart, label: "Community Impact", to: "/impact" },
   { icon: Bot, label: "Annapoorna Chatbot", to: "/annapoorna-chatbot" },
   { icon: FileCheck, label: "AI Order Verification", to: "/ai-order-verification" },
+  { icon: BarChart4, label: "CSR Dashboard", to: "/csr-dashboard" },
   { icon: User, label: "Profile", to: "/profile" },
   { icon: Info, label: "About", to: "/about" },
 ];
