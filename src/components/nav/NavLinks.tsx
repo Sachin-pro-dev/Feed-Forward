@@ -1,10 +1,10 @@
 
 import { Link, useLocation } from "react-router-dom";
-import { MapPin, Award, ShoppingBag, BarChart } from "lucide-react";
+import { MapPin, Award, ShoppingBag, BarChart, Bot, FileCheck, Globe, Database } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import { Badge } from "@/components/ui/badge";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export interface NavItem {
   title: string;
@@ -18,24 +18,31 @@ export const navItems: NavItem[] = [
   { title: "Home", href: "/" },
   { title: "Food Map", href: "/map", icon: <MapPin className="h-4 w-4" /> },
   { title: "Donate Food", href: "/donate" },
-  { 
-    title: "Farmer Donations", 
-    href: "/farmer-donations",
-    icon: <Award className="h-4 w-4" />,
-    protected: true 
-  },
-  { 
-    title: "Marketplace", 
-    href: "/marketplace", 
-    icon: <ShoppingBag className="h-4 w-4" />,
-    protected: true,
-    badge: "New"
-  },
+  { title: "AI Inventory", href: "/ai-inventory", icon: <Database className="h-4 w-4" /> },
+  { title: "Volunteer", href: "/volunteer", icon: <Award className="h-4 w-4" /> },
+  { title: "Explore", href: "/explore", icon: <Globe className="h-4 w-4" /> },
   { 
     title: "Community Impact", 
     href: "/impact", 
     icon: <BarChart className="h-4 w-4" />,
-    protected: false 
+  },
+  { 
+    title: "Chatbot", 
+    href: "/annapoorna-chatbot", 
+    icon: <Bot className="h-4 w-4" />,
+    badge: "AI"
+  },
+  { 
+    title: "AI Verification", 
+    href: "/ai-order-verification", 
+    icon: <FileCheck className="h-4 w-4" />,
+    badge: "New"
+  },
+  { 
+    title: "CSR Dashboard", 
+    href: "/csr-dashboard", 
+    icon: <BarChart className="h-4 w-4" />,
+    badge: "New"
   },
 ];
 

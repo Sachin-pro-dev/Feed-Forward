@@ -2,19 +2,21 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "react-router-dom";
-import { Home, MapPin, Heart, BarChart, ChevronLeft, ChevronRight, Info, Users, User, Database, Globe } from "lucide-react";
+import { Home, MapPin, Heart, BarChart, ChevronLeft, ChevronRight, Info, Users, User, Database, Globe, Bot, FileCheck } from "lucide-react";
 import { useState } from "react";
 
 const menuItems = [
   { icon: Home, label: "Home", to: "/" },
   { icon: MapPin, label: "Food Map", to: "/map" },
   { icon: Heart, label: "Donate Food", to: "/donate" },
-  { icon: Info, label: "About", to: "/about" },
-  { icon: Users, label: "Volunteer", to: "/volunteer" },
-  { icon: User, label: "Profile", to: "/profile" },
   { icon: Database, label: "AI Inventory", to: "/ai-inventory" },
+  { icon: Users, label: "Volunteer", to: "/volunteer" },
   { icon: Globe, label: "Explore", to: "/explore" },
   { icon: BarChart, label: "Community Impact", to: "/impact" },
+  { icon: Bot, label: "Annapoorna Chatbot", to: "/annapoorna-chatbot" },
+  { icon: FileCheck, label: "AI Order Verification", to: "/ai-order-verification" },
+  { icon: User, label: "Profile", to: "/profile" },
+  { icon: Info, label: "About", to: "/about" },
 ];
 
 export function Sidebar() {

@@ -32,6 +32,9 @@ import AboutPage from "./pages/AboutPage";
 import VolunteerPage from "./pages/VolunteerPage";
 import AIInventoryPage from "./pages/AIInventoryPage";
 import ExplorePage from "./pages/ExplorePage";
+import AIOrderVerificationPage from "./pages/AIOrderVerificationPage";
+import AnnapoornaChatbotPage from "./pages/AnnapoornaChatbotPage";
+import CSRDashboardPage from "./pages/CSRDashboardPage";
 
 const queryClient = new QueryClient();
 
@@ -68,6 +71,11 @@ const App = () => (
                       } />
                       <Route path="/explore" element={<Layout><ExplorePage /></Layout>} />
                       
+                      {/* Newly Added Pages */}
+                      <Route path="/ai-order-verification" element={<Layout><AIOrderVerificationPage /></Layout>} />
+                      <Route path="/annapoorna-chatbot" element={<Layout><AnnapoornaChatbotPage /></Layout>} />
+                      <Route path="/csr-dashboard" element={<Layout><CSRDashboardPage /></Layout>} />
+                      
                       <Route path="/profile" element={
                         <Layout>
                           <ProtectedRoute>
@@ -83,6 +91,7 @@ const App = () => (
                           </ProtectedRoute>
                         </Layout>
                       } />
+                      
                       <Route path="/marketplace" element={
                         <Layout>
                           <MarketplacePage />
