@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,8 @@ import {
 import { FoodFlagGrid } from "@/components/FoodFlagGrid";
 import { mockFoodFlags, impactStats } from "@/data/mockData";
 import { MapPin, Users, Award, ArrowRight, TrendingUp, Heart, ShieldCheck, Bell } from "lucide-react";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import { Card, CardContent } from "@/components/ui/card";
 import FrameworkSection from "@/components/FrameworkSection";
 
 const formatNumber = (num: number): string => {
@@ -130,34 +133,27 @@ export default function Home() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {impactMetrics.map((metric, index) => (
-              
-                
-                  
-                    
-                      
-                        
-                          
-                            
-                          
-                          
-                            {metric.value}
-                          
-                          {metric.label}
-                        
-                      
-                    
-                  
-                  
-                    
-                      
-                        {metric.label}
-                      
-                        {metric.description}
-                      
-                    
-                  
-                
-              
+              <HoverCard key={index}>
+                <HoverCardTrigger asChild>
+                  <Card className="cursor-pointer hover:shadow-lg transition-all">
+                    <CardContent className="p-6 text-center">
+                      <div className="flex justify-center mb-4">
+                        <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                          <metric.icon className="h-6 w-6 text-primary" />
+                        </div>
+                      </div>
+                      <div className="text-3xl font-bold mb-1">{metric.value}</div>
+                      <div className="text-sm text-muted-foreground">{metric.label}</div>
+                    </CardContent>
+                  </Card>
+                </HoverCardTrigger>
+                <HoverCardContent className="w-80">
+                  <div className="space-y-2">
+                    <h4 className="font-semibold">{metric.label}</h4>
+                    <p className="text-sm text-muted-foreground">{metric.description}</p>
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
             ))}
           </div>
         </div>
@@ -211,45 +207,47 @@ export default function Home() {
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
-              
-                
-                  
-                
-                
-                  1. Create a FoodFlag
-                
-                
+            <Card>
+              <CardContent className="p-6 text-center">
+                <div className="flex justify-center mb-4">
+                  <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <MapPin className="h-6 w-6 text-primary" />
+                  </div>
+                </div>
+                <h3 className="text-xl font-medium mb-2">1. Create a FoodFlag</h3>
+                <p className="text-sm text-muted-foreground">
                   Donors post details about surplus food including type, quantity, and pickup location.
-                
-              
+                </p>
+              </CardContent>
+            </Card>
             
-            
-              
-                
-                  
-                
-                
-                  2. Connect with Recipients
-                
-                
+            <Card>
+              <CardContent className="p-6 text-center">
+                <div className="flex justify-center mb-4">
+                  <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Users className="h-6 w-6 text-primary" />
+                  </div>
+                </div>
+                <h3 className="text-xl font-medium mb-2">2. Connect with Recipients</h3>
+                <p className="text-sm text-muted-foreground">
                   Recipients are notified of nearby available food and can claim it for pickup.
-                
-              
+                </p>
+              </CardContent>
+            </Card>
             
-            
-              
-                
-                  
-                
-                
-                  3. Earn Rewards
-                
-                
+            <Card>
+              <CardContent className="p-6 text-center">
+                <div className="flex justify-center mb-4">
+                  <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Award className="h-6 w-6 text-primary" />
+                  </div>
+                </div>
+                <h3 className="text-xl font-medium mb-2">3. Earn Rewards</h3>
+                <p className="text-sm text-muted-foreground">
                   Both donors and recipients earn FeedCoins that can be redeemed for various rewards.
-                
-              
-            
+                </p>
+              </CardContent>
+            </Card>
           </div>
           
           <div className="text-center mt-12">
@@ -269,174 +267,104 @@ export default function Home() {
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <ShieldCheck className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium mb-1">Blockchain Verification</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Immutable records of all donations for complete transparency and trust.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
             
-              
-                
-                  
-                
-                
-                  Blockchain Verification
-                
-                
-                  Immutable records of all donations for complete transparency and trust.
-                
-              
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <MapPin className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium mb-1">GPS Navigation</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Real-time directions to pickup locations for efficient food rescue.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
             
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Award className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium mb-1">FeedCoin Rewards</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Earn tokens for your contributions and redeem them for various perks.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
             
-              
-                
-                  
-                
-                
-                  GPS Navigation
-                
-                
-                  Real-time directions to pickup locations for efficient food rescue.
-                
-              
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Bell className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium mb-1">Real-time Alerts</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Get notified instantly when food is available in your area.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
             
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Users className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium mb-1">Community Governance</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Participate in platform decisions through our DAO structure.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
             
-              
-                
-                  
-                
-                
-                  FeedCoin Rewards
-                
-                
-                  Earn tokens for your contributions and redeem them for various perks.
-                
-              
-            
-            
-              
-                
-                  
-                
-                
-                  Real-time Alerts
-                
-                
-                  Get notified instantly when food is available in your area.
-                
-              
-            
-            
-              
-                
-                  
-                
-                
-                  Community Governance
-                
-                
-                  Participate in platform decisions through our DAO structure.
-                
-              
-            
-            
-              
-                
-                  
-                
-                
-                  Impact Tracking
-                
-                
-                  Monitor your environmental and social impact with detailed metrics.
-                
-              
-            
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <TrendingUp className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium mb-1">Impact Tracking</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Monitor your environmental and social impact with detailed metrics.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
-      
-      {/* Feasibility Section */}
-      
-      
-      
-        
-          
-            
-              
-                
-                  
-                    
-                      
-                      
-                        
-                      
-                      
-                        
-                          
-                            
-                              
-                            
-                            
-                              Learn More
-                            
-                          
-                        
-                      
-                    
-                  
-                
-              
-            
-          
-        
-      
-      
-      
-        
-          
-            
-              
-                
-                  
-                    
-                      
-                      
-                        
-                      
-                      
-                        
-                          
-                            
-                              
-                            
-                            
-                              Learn More
-                            
-                          
-                        
-                      
-                    
-                  
-                
-              
-            
-          
-        
-      
-      
-      
-        
-          
-            
-              
-                
-                  
-                    
-                      
-                      
-                        
-                      
-                      
-                        
-                          
-                            
-                              
-                            
-                            
-                              Learn More
+    </div>
+  );
+}
