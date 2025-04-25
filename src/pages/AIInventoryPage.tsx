@@ -46,6 +46,7 @@ import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { Database, List, Calendar, Tag, Filter, FileCheck, FileWarning, SendHorizonal } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
+import { Textarea } from "@/components/ui/textarea";
 
 // Sample inventory data
 const sampleInventory = [
@@ -290,7 +291,7 @@ const AIInventoryPage: React.FC = () => {
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
           <TabsTrigger value="inventory">Inventory Analysis</TabsTrigger>
-          <TabsTrigger value="settings">Settings & Configuration</TabsTrigger>
+          <TabsTrigger value="settings">Settings &amp; Configuration</TabsTrigger>
         </TabsList>
         
         <TabsContent value="dashboard" className="space-y-6 mt-6">
@@ -546,7 +547,7 @@ const AIInventoryPage: React.FC = () => {
                       <SelectItem value="all">All Items</SelectItem>
                       <SelectItem value="critical">Critical (24h)</SelectItem>
                       <SelectItem value="expiring-soon">Expiring Soon (2-5 days)</SelectItem>
-                      <SelectItem value="good">Good Shelf Life (>5 days)</SelectItem>
+                      <SelectItem value="good">Good Shelf Life (&gt;5 days)</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
