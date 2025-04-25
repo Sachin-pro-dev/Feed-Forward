@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
@@ -8,7 +7,7 @@ import {
   DollarSign,
   TrendingDown,
   Coins,
-  ArrowsUpDown,
+  ArrowUpDown,
   CheckCircle,
   Users,
   Leaf,
@@ -51,7 +50,7 @@ const frameworkData: FrameworkCategory[] = [
         description: "Sustainable token model incentivizing participation and growth"
       },
       {
-        icon: ArrowsUpDown,
+        icon: ArrowUpDown,
         title: "Scaling Efficiency",
         description: "Infrastructure designed for seamless scaling with demand"
       }
