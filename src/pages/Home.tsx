@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/tabs";
 import { FoodFlagGrid } from "@/components/FoodFlagGrid";
 import { mockFoodFlags, impactStats } from "@/data/mockData";
-import { MapPin, Users, Award, ArrowRight, TrendingUp, Heart, ShieldCheck } from "lucide-react";
+import { MapPin, Users, Award, ArrowRight, TrendingUp, Heart, ShieldCheck, Bell } from "lucide-react";
 
 const formatNumber = (num: number): string => {
   if (num >= 1000000) {
@@ -131,16 +131,16 @@ export default function Home() {
                 <TabsTrigger value="nearby">Nearby</TabsTrigger>
                 <TabsTrigger value="trending">Trending</TabsTrigger>
               </TabsList>
+              
+              <TabsContent value="nearby" className="mt-0">
+                <FoodFlagGrid foodFlags={nearbyFlags} />
+              </TabsContent>
+              
+              <TabsContent value="trending" className="mt-0">
+                <FoodFlagGrid foodFlags={trendingFlags} />
+              </TabsContent>
             </Tabs>
           </div>
-          
-          <TabsContent value="nearby" className="mt-0">
-            <FoodFlagGrid foodFlags={nearbyFlags} />
-          </TabsContent>
-          
-          <TabsContent value="trending" className="mt-0">
-            <FoodFlagGrid foodFlags={trendingFlags} />
-          </TabsContent>
           
           <div className="text-center mt-8">
             <Button asChild variant="outline" className="group">
