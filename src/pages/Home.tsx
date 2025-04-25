@@ -131,7 +131,7 @@ export default function Home() {
                 <TabsTrigger value="nearby">Nearby</TabsTrigger>
                 <TabsTrigger value="trending">Trending</TabsTrigger>
               </TabsList>
-            
+              
               <TabsContent value="nearby" className="mt-0">
                 <FoodFlagGrid foodFlags={nearbyFlags} />
               </TabsContent>

@@ -1,33 +1,111 @@
 
+import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/Layout";
+import { AuthProvider } from "./contexts/AuthContext";
+import { ProfileProvider } from "./contexts/ProfileContext";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import { Web3Provider } from "./components/providers/Web3Provider";
+import { MarketplaceProvider } from "./contexts/MarketplaceContext";
+import { ThemeProvider } from "./contexts/ThemeContext";
+
+// Import page components
 import Home from "./pages/Home";
 import FoodMap from "./pages/FoodMap";
+import FoodDetail from "./pages/FoodDetail";
 import DonatePage from "./pages/DonatePage";
+import NotificationCenter from "./pages/NotificationCenter";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import WalletPage from "./pages/WalletPage";
+import MarketplacePage from "./pages/MarketplacePage";
 import NotFound from "./pages/NotFound";
+import FarmerDonations from "./pages/FarmerDonations";
+import SellerDashboardPage from "./pages/SellerDashboardPage";
+import CommunityImpactPage from "./pages/CommunityImpactPage";
+import ProfilePage from "./pages/ProfilePage";
 
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout><Home /></Layout>} />
-          <Route path="/map" element={<Layout><FoodMap /></Layout>} />
-          <Route path="/donate" element={<Layout><DonatePage /></Layout>} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<Layout><NotFound /></Layout>} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <ThemeProvider>
+          <BrowserRouter>
+            <AuthProvider>
+              <ProfileProvider>
+                <Web3Provider>
+                  <MarketplaceProvider>
+                    <Toaster />
+                    <Sonner />
+                    <Routes>
+                      <Route path="/" element={<Layout><Home /></Layout>} />
+                      <Route path="/map" element={<Layout><FoodMap /></Layout>} />
+                      <Route path="/food/:id" element={<Layout><FoodDetail /></Layout>} />
+                      <Route path="/donate" element={<Layout><DonatePage /></Layout>} />
+                      <Route path="/notifications" element={<Layout><NotificationCenter /></Layout>} />
+                      <Route path="/login" element={<Layout><Login /></Layout>} />
+                      <Route path="/signup" element={<Layout><SignUp /></Layout>} />
+                      
+                      <Route path="/profile" element={
+                        <Layout>
+                          <ProtectedRoute>
+                            <ProfilePage />
+                          </ProtectedRoute>
+                        </Layout>
+                      } />
+                      
+                      <Route path="/wallet" element={
+                        <Layout>
+                          <ProtectedRoute>
+                            <WalletPage />
+                          </ProtectedRoute>
+                        </Layout>
+                      } />
+                      <Route path="/marketplace" element={
+                        <Layout>
+                          <MarketplacePage />
+                        </Layout>
+                      } />
+                      
+                      <Route path="/seller-dashboard" element={
+                        <Layout>
+                          <ProtectedRoute>
+                            <SellerDashboardPage />
+                          </ProtectedRoute>
+                        </Layout>
+                      } />
+                      
+                      <Route path="/farmer-donations" element={
+                        <Layout>
+                          <ProtectedRoute>
+                            <FarmerDonations />
+                          </ProtectedRoute>
+                        </Layout>
+                      } />
+
+                      <Route path="/impact" element={
+                        <Layout>
+                          <CommunityImpactPage />
+                        </Layout>
+                      } />
+                      
+                      <Route path="*" element={<Layout><NotFound /></Layout>} />
+                    </Routes>
+                  </MarketplaceProvider>
+                </Web3Provider>
+              </ProfileProvider>
+            </AuthProvider>
+          </BrowserRouter>
+        </ThemeProvider>
+      </TooltipProvider>
+    </QueryClientProvider>
+  </React.StrictMode>
 );
 
 export default App;

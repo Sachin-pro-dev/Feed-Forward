@@ -39,9 +39,10 @@ export interface FoodFlag {
 interface FoodFlagCardProps {
   foodFlag: FoodFlag;
   variant?: "default" | "compact";
+  onClick?: () => void;
 }
 
-export function FoodFlagCard({ foodFlag, variant = "default" }: FoodFlagCardProps) {
+export function FoodFlagCard({ foodFlag, variant = "default", onClick }: FoodFlagCardProps) {
   const isCompact = variant === "compact";
   
   const getFoodTypeBadgeColor = (type: string) => {
@@ -57,8 +58,17 @@ export function FoodFlagCard({ foodFlag, variant = "default" }: FoodFlagCardProp
     }
   };
 
+  // Check if expiry is urgent (less than 3 hours)
+  const isUrgent = foodFlag.expiryTime.includes("hour") && 
+    parseInt(foodFlag.expiryTime.split(" ")[0]) <= 3;
+
   return (
-    <Card className={`overflow-hidden group transition-all duration-300 ${isCompact ? "" : "hover:shadow-lg"} animate-fade-in`}>
+    <Card 
+      className={`overflow-hidden group transition-all duration-300 ${
+        isCompact ? "" : "hover:shadow-lg"
+      } animate-fade-in ${onClick ? "cursor-pointer" : ""}`}
+      onClick={onClick}
+    >
       {!isCompact && (
         <div className="relative h-48 overflow-hidden">
           <img
@@ -66,10 +76,16 @@ export function FoodFlagCard({ foodFlag, variant = "default" }: FoodFlagCardProp
             alt={foodFlag.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
-          <div className="absolute top-2 right-2">
+          <div className="absolute top-2 right-2 flex flex-col gap-1">
             <Badge variant="secondary" className="font-medium">
               {foodFlag.quantity}
             </Badge>
+            
+            {isUrgent && (
+              <Badge variant="destructive" className="animate-pulse">
+                Urgent
+              </Badge>
+            )}
           </div>
         </div>
       )}
@@ -105,7 +121,7 @@ export function FoodFlagCard({ foodFlag, variant = "default" }: FoodFlagCardProp
           
           <div className="flex items-center text-sm">
             <Clock className="h-4 w-4 mr-1 text-muted-foreground" />
-            <span className="text-muted-foreground">
+            <span className={`text-muted-foreground ${isUrgent ? "text-destructive font-medium" : ""}`}>
               Expires in {foodFlag.expiryTime} • Posted {foodFlag.postedTime}
             </span>
           </div>

@@ -1,5 +1,6 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -14,27 +15,128 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { FoodFlagGrid } from "@/components/FoodFlagGrid";
 import { mockFoodFlags } from "@/data/mockData";
-import { MapPin, Search, Filter, List, Grid3X3 } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { MapPin, Search, Filter, List, Grid3X3, Clock, Calendar } from "lucide-react";
+import { toast } from "sonner";
+
+// Define the filter form schema
+const filterFormSchema = z.object({
+  foodTypes: z.array(z.string()).default([]),
+  includeExpiringSoon: z.boolean().default(false),
+  includeNewlyAdded: z.boolean().default(false),
+  sortBy: z.string().default("distance"),
+});
+
+type FilterFormValues = z.infer<typeof filterFormSchema>;
 
 export default function FoodMap() {
+  const navigate = useNavigate();
   const [view, setView] = useState<"map" | "list">("map");
   const [distance, setDistance] = useState([5]);
   const [searchQuery, setSearchQuery] = useState("");
   const [foodType, setFoodType] = useState<string>("all");
+  const [isFiltering, setIsFiltering] = useState(false);
   
+  // Create form for advanced filters
+  const form = useForm<FilterFormValues>({
+    resolver: zodResolver(filterFormSchema),
+    defaultValues: {
+      foodTypes: [],
+      includeExpiringSoon: false,
+      includeNewlyAdded: false,
+      sortBy: "distance",
+    },
+  });
+  
+  // Apply basic filters (search, food type, distance)
   const filteredFlags = mockFoodFlags.filter((flag) => {
+    // Search filter
     if (searchQuery && !flag.title.toLowerCase().includes(searchQuery.toLowerCase())) {
       return false;
     }
+    
+    // Food type filter
     if (foodType !== "all" && flag.foodType.toLowerCase() !== foodType.toLowerCase()) {
       return false;
     }
+    
+    // Distance filter (mock implementation)
+    const flagDistance = parseFloat(flag.distance.split(" ")[0]);
+    if (flagDistance > distance[0]) {
+      return false;
+    }
+    
     return true;
   });
+  
+  // Apply advanced filters if filtering is active
+  const sortedFlags = [...filteredFlags].sort((a, b) => {
+    const sortBy = form.watch("sortBy");
+    
+    if (sortBy === "distance") {
+      return parseFloat(a.distance.split(" ")[0]) - parseFloat(b.distance.split(" ")[0]);
+    }
+    
+    if (sortBy === "expiry") {
+      // Simple string comparison for this demo
+      return a.expiryTime.localeCompare(b.expiryTime);
+    }
+    
+    if (sortBy === "newest") {
+      return a.postedTime.localeCompare(b.postedTime);
+    }
+    
+    return 0;
+  });
+  
+  // Handle form submission
+  function onSubmit(data: FilterFormValues) {
+    setIsFiltering(true);
+    
+    // Apply filters (in a real app, this would modify the filteredFlags state)
+    console.log("Filter applied:", data);
+    
+    toast.success("Filters applied", {
+      description: `Found ${filteredFlags.length} food flags nearby`,
+    });
+  }
+  
+  // Simulate flag refresh
+  const refreshFoodFlags = () => {
+    toast.info("Refreshing food flags...", {
+      description: "Looking for new food donations nearby",
+    });
+    
+    // In a real app, this would trigger an API call
+    setTimeout(() => {
+      toast.success("Food flags updated!", {
+        description: "Found 3 new food donations",
+      });
+    }, 1500);
+  };
   
   return (
     <div className="container mx-auto px-4 py-8">
@@ -61,6 +163,10 @@ export default function FoodMap() {
               </TabsTrigger>
             </TabsList>
           </Tabs>
+          
+          <Button variant="outline" size="icon" onClick={refreshFoodFlags}>
+            <Clock className="h-4 w-4" />
+          </Button>
         </div>
       </div>
       
@@ -104,14 +210,161 @@ export default function FoodMap() {
           </div>
           
           <div className="flex items-end">
-            <Button variant="outline" className="w-full">
-              <Filter className="h-4 w-4 mr-2" />
-              More Filters
-            </Button>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" className="w-full">
+                  <Filter className="h-4 w-4 mr-2" />
+                  More Filters
+                </Button>
+              </SheetTrigger>
+              <SheetContent>
+                <SheetHeader>
+                  <SheetTitle>Advanced Filters</SheetTitle>
+                  <SheetDescription>
+                    Customize your search to find exactly what you're looking for.
+                  </SheetDescription>
+                </SheetHeader>
+                
+                <div className="py-4">
+                  <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                      <FormField
+                        control={form.control}
+                        name="foodTypes"
+                        render={() => (
+                          <FormItem>
+                            <FormLabel>Food Categories</FormLabel>
+                            <div className="grid grid-cols-2 gap-2 pt-2">
+                              {["Cooked Meals", "Produce", "Bakery", "Dairy", "Packaged"].map((type) => (
+                                <FormField
+                                  key={type}
+                                  control={form.control}
+                                  name="foodTypes"
+                                  render={({ field }) => {
+                                    return (
+                                      <FormItem
+                                        key={type}
+                                        className="flex flex-row items-center space-x-2 space-y-0"
+                                      >
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value?.includes(type)}
+                                            onCheckedChange={(checked) => {
+                                              return checked
+                                                ? field.onChange([...field.value, type])
+                                                : field.onChange(
+                                                    field.value?.filter(
+                                                      (value) => value !== type
+                                                    )
+                                                  );
+                                            }}
+                                          />
+                                        </FormControl>
+                                        <FormLabel className="text-sm font-normal">
+                                          {type}
+                                        </FormLabel>
+                                      </FormItem>
+                                    );
+                                  }}
+                                />
+                              ))}
+                            </div>
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="includeExpiringSoon"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                            <div className="space-y-1 leading-none">
+                              <FormLabel>Expiring Soon ({"<"} 3 hours)</FormLabel>
+                              <FormDescription>
+                                These items need to be claimed quickly
+                              </FormDescription>
+                            </div>
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="includeNewlyAdded"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                            <div className="space-y-1 leading-none">
+                              <FormLabel>Newly Added ({"<"} 1 hour)</FormLabel>
+                              <FormDescription>
+                                Fresh donations just posted
+                              </FormDescription>
+                            </div>
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="sortBy"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Sort Results By</FormLabel>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                            >
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select sort order" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="distance">Distance (Closest First)</SelectItem>
+                                <SelectItem value="expiry">Expiry Time (Soonest First)</SelectItem>
+                                <SelectItem value="newest">Recently Added</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <div className="flex justify-end gap-2">
+                        <Button 
+                          type="button" 
+                          variant="outline"
+                          onClick={() => {
+                            form.reset();
+                            setIsFiltering(false);
+                          }}
+                        >
+                          Reset
+                        </Button>
+                        <Button type="submit" className="btn-gradient">
+                          Apply Filters
+                        </Button>
+                      </div>
+                    </form>
+                  </Form>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>
       
+      {/* Tabs components */}
       <Tabs value={view} onValueChange={(v) => setView(v as "map" | "list")}>
         <TabsContent value="map" className="mt-0 animate-fade-in">
           <div className="relative rounded-lg overflow-hidden border h-[500px] mb-6">
@@ -123,12 +376,15 @@ export default function FoodMap() {
               </div>
             </div>
             
-            {/* This would be replaced with an actual map component */}
             <div className="absolute bottom-4 left-4 right-4 bg-background p-4 rounded-lg shadow-lg border">
-              <h3 className="font-medium mb-2">6 FoodFlags Found Nearby</h3>
+              <h3 className="font-medium mb-2">{sortedFlags.length} FoodFlags Found Nearby</h3>
               <div className="flex overflow-x-auto gap-4 pb-2">
-                {mockFoodFlags.slice(0, 3).map((flag) => (
-                  <div key={flag.id} className="min-w-[200px] p-3 bg-muted rounded-md">
+                {sortedFlags.slice(0, 3).map((flag) => (
+                  <div 
+                    key={flag.id} 
+                    className="min-w-[200px] p-3 bg-muted rounded-md cursor-pointer hover:bg-muted/80"
+                    onClick={() => navigate(`/food/${flag.id}`)}
+                  >
                     <div className="font-medium truncate">{flag.title}</div>
                     <div className="text-sm text-muted-foreground">{flag.distance}</div>
                   </div>
@@ -138,12 +394,15 @@ export default function FoodMap() {
           </div>
           
           <h3 className="text-xl font-medium mb-4">Available Near You</h3>
-          <FoodFlagGrid foodFlags={filteredFlags.slice(0, 3)} />
+          <FoodFlagGrid 
+            foodFlags={sortedFlags.slice(0, 3)} 
+            onFoodFlagClick={(id) => navigate(`/food/${id}`)}
+          />
         </TabsContent>
         
         <TabsContent value="list" className="mt-0 animate-fade-in">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-medium">All Available Food ({filteredFlags.length})</h3>
+            <h3 className="text-xl font-medium">All Available Food ({sortedFlags.length})</h3>
             <div className="flex gap-2">
               <Button variant="outline" size="sm" className="h-8 w-8 p-0">
                 <Grid3X3 className="h-4 w-4" />
@@ -156,7 +415,11 @@ export default function FoodMap() {
             </div>
           </div>
           
-          <FoodFlagGrid foodFlags={filteredFlags} variant="compact" />
+          <FoodFlagGrid 
+            foodFlags={sortedFlags} 
+            variant="compact" 
+            onFoodFlagClick={(id) => navigate(`/food/${id}`)}
+          />
         </TabsContent>
       </Tabs>
     </div>
