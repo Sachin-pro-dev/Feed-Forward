@@ -13,13 +13,38 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
-import { Clock, MapPin, Award, Heart, AlertTriangle, CheckCircle, Users } from "lucide-react";
+import { 
+  Clock, 
+  MapPin, 
+  Award, 
+  Heart, 
+  AlertTriangle, 
+  CheckCircle, 
+  Users,
+  FileText,
+  Phone, 
+  CalendarDays,
+  Info
+} from "lucide-react";
 import { mockFoodFlags } from "@/data/mockData";
+import { ClaimForm } from "@/components/ClaimForm";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
 
 export default function FoodDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [isClaiming, setIsClaiming] = useState(false);
+  const [isClaimFormOpen, setIsClaimFormOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("details");
   
   // Find the food flag from mock data
   const foodFlag = mockFoodFlags.find(flag => flag.id === id);
@@ -44,25 +69,11 @@ export default function FoodDetail() {
     );
   }
   
-  const handleClaimFood = () => {
-    setIsClaiming(true);
-    
-    // Simulate API request with timeout
+  const handleClaimSuccess = () => {
+    // Navigate back to the map after successful claim
     setTimeout(() => {
-      setIsClaiming(false);
-      toast.success("Food claimed successfully!", {
-        description: "Details have been sent to your account. Please pick up within the expiry time.",
-        action: {
-          label: "View Details",
-          onClick: () => console.log("View Details clicked"),
-        },
-      });
-      
-      // Navigate back to the map after successful claim
-      setTimeout(() => {
-        navigate("/map");
-      }, 2000);
-    }, 1500);
+      navigate("/map");
+    }, 2000);
   };
   
   // Determine badge color based on food type
@@ -81,6 +92,19 @@ export default function FoodDetail() {
   
   const timeLeft = foodFlag.expiryTime;
   const isUrgent = timeLeft.includes("hours") && parseInt(timeLeft.split(" ")[0]) <= 3;
+  
+  // Calculate freshness score (mock data)
+  const freshnessScore = Math.floor(Math.random() * 30) + 70; // 70-100%
+  const qualityRating = Math.floor(Math.random() * 2) + 4; // 4-5 stars
+  
+  // Nutritional info (mock data)
+  const nutritionalInfo = {
+    calories: Math.floor(Math.random() * 500) + 200,
+    protein: Math.floor(Math.random() * 30) + 5,
+    carbs: Math.floor(Math.random() * 50) + 20,
+    fats: Math.floor(Math.random() * 20) + 5,
+    servings: Math.floor(Math.random() * 5) + 2
+  };
   
   return (
     <div className="container mx-auto px-4 py-8 animate-fade-in">
@@ -126,67 +150,216 @@ export default function FoodDetail() {
               <CardDescription>{foodFlag.description}</CardDescription>
             </CardHeader>
             
-            <CardContent className="space-y-4">
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center">
-                  <MapPin className="h-4 w-4 mr-2 text-muted-foreground" />
-                  <span>
-                    <strong>Location:</strong> {foodFlag.location} ({foodFlag.distance})
-                  </span>
-                </div>
-                
-                <div className="flex items-center">
-                  <Clock className="h-4 w-4 mr-2 text-muted-foreground" />
-                  <span>
-                    <strong>Expires in:</strong>{" "}
-                    <span className={isUrgent ? "text-destructive font-medium" : ""}>
-                      {foodFlag.expiryTime}
-                    </span>
-                  </span>
-                </div>
-                
-                <div className="flex items-center">
-                  <Users className="h-4 w-4 mr-2 text-muted-foreground" />
-                  <span>
-                    <strong>Posted by:</strong> {foodFlag.donorName} 
-                    <Badge variant="outline" className="ml-2 bg-amber-50">
-                      ⭐ {foodFlag.donorRating}
-                    </Badge>
-                  </span>
-                </div>
-                
-                <div className="flex items-center">
-                  <Award className="h-4 w-4 mr-2 text-ff-orange" />
-                  <span>
-                    <strong>Impact:</strong> {foodFlag.impact.mealsProvided} meals • 
-                    {foodFlag.impact.co2Saved}kg CO₂ saved
-                  </span>
-                </div>
+            <Tabs defaultValue="details" onValueChange={setActiveTab} className="w-full">
+              <div className="px-6">
+                <TabsList className="w-full md:w-auto">
+                  <TabsTrigger value="details">Details</TabsTrigger>
+                  <TabsTrigger value="nutrition">Nutrition</TabsTrigger>
+                  <TabsTrigger value="impact">Impact</TabsTrigger>
+                </TabsList>
               </div>
-            </CardContent>
+              
+              <TabsContent value="details" className="p-6 pt-3">
+                <div className="space-y-4">
+                  <div className="flex flex-col gap-3">
+                    <div className="flex items-center">
+                      <MapPin className="h-4 w-4 mr-2 text-muted-foreground" />
+                      <span>
+                        <strong>Location:</strong> {foodFlag.location} ({foodFlag.distance})
+                      </span>
+                    </div>
+                    
+                    <div className="flex items-center">
+                      <Clock className="h-4 w-4 mr-2 text-muted-foreground" />
+                      <span>
+                        <strong>Expires in:</strong>{" "}
+                        <span className={isUrgent ? "text-destructive font-medium" : ""}>
+                          {foodFlag.expiryTime}
+                        </span>
+                      </span>
+                    </div>
+                    
+                    <div className="flex items-center">
+                      <CalendarDays className="h-4 w-4 mr-2 text-muted-foreground" />
+                      <span>
+                        <strong>Posted:</strong> {foodFlag.postedTime}
+                      </span>
+                    </div>
+                    
+                    <div className="flex items-center">
+                      <Users className="h-4 w-4 mr-2 text-muted-foreground" />
+                      <span>
+                        <strong>Posted by:</strong> {foodFlag.donorName} 
+                        <Badge variant="outline" className="ml-2 bg-amber-50">
+                          ⭐ {foodFlag.donorRating}
+                        </Badge>
+                      </span>
+                    </div>
+                    
+                    <div className="flex items-center">
+                      <Phone className="h-4 w-4 mr-2 text-muted-foreground" />
+                      <span>
+                        <strong>Contact:</strong> <span className="text-muted-foreground">(Available after claiming)</span>
+                      </span>
+                    </div>
+                    
+                    <div className="flex items-center">
+                      <FileText className="h-4 w-4 mr-2 text-muted-foreground" />
+                      <span>
+                        <strong>Freshness:</strong> 
+                        <div className="ml-2 w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
+                          <div 
+                            className={`h-full rounded-full ${freshnessScore > 90 ? 'bg-green-500' : freshnessScore > 80 ? 'bg-ff-green' : 'bg-ff-orange'}`}
+                            style={{ width: `${freshnessScore}%` }}
+                          ></div>
+                        </div>
+                        <span className="ml-2 text-sm">{freshnessScore}%</span>
+                      </span>
+                    </div>
+                    
+                    <div className="flex items-center">
+                      <Award className="h-4 w-4 mr-2 text-ff-orange" />
+                      <span>
+                        <strong>Impact:</strong> {foodFlag.impact.mealsProvided} meals • 
+                        {foodFlag.impact.co2Saved}kg CO₂ saved
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-col gap-2">
+                    <h4 className="text-sm font-semibold">Quality Rating</h4>
+                    <div className="flex items-center">
+                      {[...Array(5)].map((_, i) => (
+                        <span key={i} className="text-xl">
+                          {i < qualityRating ? "★" : "☆"}
+                        </span>
+                      ))}
+                      <span className="ml-2 text-sm text-muted-foreground">
+                        Based on donor history
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="nutrition" className="p-6 pt-3">
+                <div className="space-y-4">
+                  <p className="text-sm text-muted-foreground">
+                    Estimated nutritional values per serving. Actual values may vary.
+                  </p>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-muted rounded-lg p-4">
+                      <div className="text-sm text-muted-foreground">Calories</div>
+                      <div className="text-2xl font-bold">{nutritionalInfo.calories}</div>
+                      <div className="text-xs text-muted-foreground">kcal per serving</div>
+                    </div>
+                    
+                    <div className="bg-muted rounded-lg p-4">
+                      <div className="text-sm text-muted-foreground">Protein</div>
+                      <div className="text-2xl font-bold">{nutritionalInfo.protein}g</div>
+                      <div className="text-xs text-muted-foreground">per serving</div>
+                    </div>
+                    
+                    <div className="bg-muted rounded-lg p-4">
+                      <div className="text-sm text-muted-foreground">Carbohydrates</div>
+                      <div className="text-2xl font-bold">{nutritionalInfo.carbs}g</div>
+                      <div className="text-xs text-muted-foreground">per serving</div>
+                    </div>
+                    
+                    <div className="bg-muted rounded-lg p-4">
+                      <div className="text-sm text-muted-foreground">Fats</div>
+                      <div className="text-2xl font-bold">{nutritionalInfo.fats}g</div>
+                      <div className="text-xs text-muted-foreground">per serving</div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium">Estimated Servings</span>
+                    <span className="font-semibold">{nutritionalInfo.servings}</span>
+                  </div>
+                  
+                  <div className="rounded-md bg-amber-50 border-amber-200 border p-3 flex items-start">
+                    <AlertTriangle className="h-5 w-5 text-amber-600 mr-2 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm text-amber-800">
+                      Allergy information is not available. If you have food allergies, please contact the donor directly after claiming.
+                    </span>
+                  </div>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="impact" className="p-6 pt-3">
+                <div className="space-y-4">
+                  <p className="text-sm text-muted-foreground">
+                    By claiming this food, you are contributing to these environmental and social impacts:
+                  </p>
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="border rounded-lg p-4 space-y-2">
+                      <h4 className="font-medium flex items-center">
+                        <Award className="h-4 w-4 mr-2 text-ff-orange" />
+                        CO₂ Emission Reduction
+                      </h4>
+                      <p className="text-3xl font-bold text-ff-green">
+                        {foodFlag.impact.co2Saved}kg
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        Equivalent to {Math.round(foodFlag.impact.co2Saved * 4)} km driven by an average car
+                      </p>
+                    </div>
+                    
+                    <div className="border rounded-lg p-4 space-y-2">
+                      <h4 className="font-medium flex items-center">
+                        <Users className="h-4 w-4 mr-2 text-ff-orange" />
+                        Meals Provided
+                      </h4>
+                      <p className="text-3xl font-bold text-ff-green">
+                        {foodFlag.impact.mealsProvided}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        Potentially feeding {Math.ceil(foodFlag.impact.mealsProvided / 3)} people for a day
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="border rounded-lg p-4">
+                    <h4 className="font-medium mb-2">FeedCoin Rewards</h4>
+                    <div className="flex items-center">
+                      <div className="h-8 w-8 rounded-full bg-amber-100 flex items-center justify-center mr-2">
+                        <span className="text-amber-600 font-bold">FC</span>
+                      </div>
+                      <div>
+                        <p className="text-lg font-bold">+{Math.round(foodFlag.impact.mealsProvided * 1.5)} FeedCoins</p>
+                        <p className="text-xs text-muted-foreground">Estimated rewards for this claim</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </TabsContent>
+            </Tabs>
             
             <Separator />
             
             <CardFooter className="p-6">
               <div className="w-full">
                 <Button 
-                  onClick={handleClaimFood}
-                  disabled={isClaiming}
+                  onClick={() => setIsClaimFormOpen(true)}
                   className="btn-gradient w-full text-lg py-6"
                 >
-                  {isClaiming ? (
-                    <>Processing...</>
-                  ) : (
-                    <>
-                      <CheckCircle className="mr-2 h-5 w-5" />
-                      Claim This Food
-                    </>
-                  )}
+                  <CheckCircle className="mr-2 h-5 w-5" />
+                  Claim This Food
                 </Button>
                 
                 <p className="text-sm text-muted-foreground mt-2 text-center">
                   By claiming, you agree to pick up this food within the specified time frame.
                 </p>
+                
+                <ClaimForm 
+                  foodFlag={foodFlag}
+                  open={isClaimFormOpen}
+                  onOpenChange={setIsClaimFormOpen}
+                  onSuccess={handleClaimSuccess}
+                />
               </div>
             </CardFooter>
           </Card>
@@ -211,19 +384,98 @@ export default function FoodDetail() {
           
           <Card>
             <CardHeader>
+              <CardTitle className="text-lg">Verification Process</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-start space-x-3">
+                <div className="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 mt-0.5">
+                  1
+                </div>
+                <div>
+                  <h4 className="font-medium">Submit Claim</h4>
+                  <p className="text-sm text-muted-foreground">Complete the claim form with your details</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start space-x-3">
+                <div className="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 mt-0.5">
+                  2
+                </div>
+                <div>
+                  <h4 className="font-medium">Receive Confirmation</h4>
+                  <p className="text-sm text-muted-foreground">Get verification code via email or SMS</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start space-x-3">
+                <div className="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 mt-0.5">
+                  3
+                </div>
+                <div>
+                  <h4 className="font-medium">Show ID at Pickup</h4>
+                  <p className="text-sm text-muted-foreground">Present ID and verification code to donor</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start space-x-3">
+                <div className="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 mt-0.5">
+                  4
+                </div>
+                <div>
+                  <h4 className="font-medium">Confirm Receipt</h4>
+                  <p className="text-sm text-muted-foreground">Mark food as received in the app</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader>
               <CardTitle className="text-lg">Food Safety</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground mb-4">
                 This food has been verified by our donor. Please check the quality before consuming.
                 Report any issues immediately through the feedback form.
               </p>
-              <div className="flex items-center mt-4">
-                <Button variant="outline" size="sm" className="mr-2">
+              
+              <div className="space-y-3">
+                <div className="flex items-start space-x-3">
+                  <CheckCircle className="h-5 w-5 text-green-600 mt-0.5" />
+                  <span className="text-sm">Quality verified by donor</span>
+                </div>
+                
+                <div className="flex items-start space-x-3">
+                  <CheckCircle className="h-5 w-5 text-green-600 mt-0.5" />
+                  <span className="text-sm">Food handling guidelines followed</span>
+                </div>
+                
+                <div className="flex items-start space-x-3">
+                  <CheckCircle className="h-5 w-5 text-green-600 mt-0.5" />
+                  <span className="text-sm">Temperature-controlled storage</span>
+                </div>
+                
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="mt-4 p-3 bg-blue-50 rounded-md border border-blue-100 flex items-center cursor-help">
+                      <Info className="h-5 w-5 text-blue-600 mr-2 flex-shrink-0" />
+                      <p className="text-sm text-blue-700">
+                        Learn about our food safety standards
+                      </p>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p>All donors follow our strict food safety guidelines including temperature control, proper storage, and hygiene standards. Food is inspected before donation.</p>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
+              
+              <div className="flex items-center gap-2 mt-4">
+                <Button variant="outline" size="sm" className="flex-1">
                   <Heart className="h-4 w-4 mr-1 text-red-500" />
                   Save
                 </Button>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" className="flex-1">
                   Report Issue
                 </Button>
               </div>
