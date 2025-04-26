@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -12,7 +13,32 @@ import { Web3Provider } from "./components/providers/Web3Provider";
 import { MarketplaceProvider } from "./contexts/MarketplaceContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { CartProvider } from "./contexts/CartContext";
+
+// Import all page components
+import Home from "./pages/Home";
+import FoodMap from "./pages/FoodMap";
+import FoodDetail from "./pages/FoodDetail";
+import DonatePage from "./pages/DonatePage";
+import NotificationCenter from "./pages/NotificationCenter";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import AboutPage from "./pages/AboutPage";
+import VolunteerPage from "./pages/VolunteerPage";
+import AIInventoryPage from "./pages/AIInventoryPage";
+import ExplorePage from "./pages/ExplorePage";
+import AIOrderVerificationPage from "./pages/AIOrderVerificationPage";
+import AnnapoornaChatbotPage from "./pages/AnnapoornaChatbotPage";
+import CSRDashboardPage from "./pages/CSRDashboardPage";
+import SanjeevaniPage from "./pages/SanjeevaniPage";
+import EcoMarketplacePage from "./pages/EcoMarketplacePage";
+import ProfilePage from "./pages/ProfilePage";
+import WalletPage from "./pages/WalletPage";
+import MarketplacePage from "./pages/MarketplacePage";
+import SellerDashboardPage from "./pages/SellerDashboardPage";
+import FarmerDonations from "./pages/FarmerDonations";
+import CommunityImpactPage from "./pages/CommunityImpactPage";
 import CheckoutPage from "./pages/CheckoutPage";
+import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
