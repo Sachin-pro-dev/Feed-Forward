@@ -14,10 +14,8 @@ import {
   BarChart3, 
   MapPin, 
   Heart, 
-  AlertCircle, 
-  MoveRight,
-  Database,
-  GanttChart
+  AlertCircle,
+  MoveRight 
 } from "lucide-react";
 
 const AboutPage: React.FC = () => {
@@ -29,40 +27,36 @@ const AboutPage: React.FC = () => {
             About FeedForward
           </h1>
           <p className="text-xl text-muted-foreground">
-            Connecting food surplus to hunger, one meal at a time
+            Every meal shared is a life touched, every action counts
           </p>
         </div>
         
-        <div className="grid gap-6 md:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Our Mission</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <p>
-                FeedForward is building a revolutionary platform to bridge the gap between food waste and hunger - creating an ecosystem where excess food can be efficiently redirected to those who need it most.
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader>
-              <CardTitle>Our Vision</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <p>
-                We envision a world where no edible food goes to waste while people go hungry. Our blockchain-powered platform creates transparency, accountability and incentives for all participants in the food rescue ecosystem.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
+        <Card className="bg-red-50/50 border-red-100 dark:bg-red-950/20">
+          <CardContent className="p-6">
+            <h2 className="text-2xl font-bold text-red-600 mb-4">The Crisis We Face</h2>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              <div className="flex flex-col items-center p-4 bg-white/50 rounded-lg shadow-sm">
+                <span className="text-3xl font-bold text-red-600">9 Million</span>
+                <p className="text-center mt-2">People die annually from hunger and hunger-related causes</p>
+              </div>
+              <div className="flex flex-col items-center p-4 bg-white/50 rounded-lg shadow-sm">
+                <span className="text-3xl font-bold text-red-600">25,000</span>
+                <p className="text-center mt-2">People, including 10,000 children, die from hunger every day</p>
+              </div>
+              <div className="flex flex-col items-center p-4 bg-white/50 rounded-lg shadow-sm">
+                <span className="text-3xl font-bold text-red-600">733 Million</span>
+                <p className="text-center mt-2">People still go hungry despite enough food production globally</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </section>
 
       <section className="space-y-6">
         <div className="flex flex-col space-y-3">
-          <h2 className="text-3xl font-bold tracking-tight">The Reality We Face</h2>
+          <h2 className="text-3xl font-bold tracking-tight">Faces of Hunger</h2>
           <p className="text-xl text-muted-foreground">
-            Images that tell the story of food waste and hunger in India
+            Behind every statistic is a human story
           </p>
         </div>
         
@@ -70,12 +64,12 @@ const AboutPage: React.FC = () => {
           <Card className="overflow-hidden">
             <img 
               src="/lovable-uploads/2435a09c-3a7b-473e-96fd-25ec452833e2.png"
-              alt="People in difficult conditions"
+              alt="Child in need"
               className="w-full h-48 object-cover"
             />
             <CardContent className="p-4">
               <p className="text-sm text-muted-foreground">
-                Millions face daily struggles to find their next meal
+                Every child deserves a chance at a healthy, nourished life
               </p>
             </CardContent>
           </Card>
@@ -83,12 +77,51 @@ const AboutPage: React.FC = () => {
           <Card className="overflow-hidden">
             <img 
               src="/lovable-uploads/44e59b9c-ba0f-4dad-bed6-622b672bcbb6.png"
-              alt="Person searching for food"
+              alt="Food waste"
               className="w-full h-48 object-cover"
             />
             <CardContent className="p-4">
               <p className="text-sm text-muted-foreground">
-                Many resort to desperate measures to find sustenance
+                While some search for food in waste, others waste what could feed many
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="overflow-hidden">
+            <img 
+              src="/lovable-uploads/73319f04-e1f5-48d4-b5ed-9c1cca312bd1.png"
+              alt="Food waste in stores"
+              className="w-full h-48 object-cover"
+            />
+            <CardContent className="p-4">
+              <p className="text-sm text-muted-foreground">
+                Tons of edible food is discarded daily while millions go hungry
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="overflow-hidden">
+            <img 
+              src="/lovable-uploads/86fe838c-63df-4ff1-bfd9-6462f562a732.png"
+              alt="Happy child with food"
+              className="w-full h-48 object-cover"
+            />
+            <CardContent className="p-4">
+              <p className="text-sm text-muted-foreground">
+                A simple meal can bring joy and hope to a child's life
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="overflow-hidden">
+            <img 
+              src="/lovable-uploads/ab101a95-efc6-456a-959c-98f22a8a0013.png"
+              alt="Children in poverty"
+              className="w-full h-48 object-cover"
+            />
+            <CardContent className="p-4">
+              <p className="text-sm text-muted-foreground">
+                Every child deserves access to basic necessities
               </p>
             </CardContent>
           </Card>
@@ -101,74 +134,44 @@ const AboutPage: React.FC = () => {
             />
             <CardContent className="p-4">
               <p className="text-sm text-muted-foreground">
-                Children are the most vulnerable victims of food insecurity
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="overflow-hidden">
-            <img 
-              src="/lovable-uploads/ab101a95-efc6-456a-959c-98f22a8a0013.png"
-              alt="Children collecting water"
-              className="w-full h-48 object-cover"
-            />
-            <CardContent className="p-4">
-              <p className="text-sm text-muted-foreground">
-                Basic necessities remain out of reach for many
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="overflow-hidden">
-            <img 
-              src="/lovable-uploads/73319f04-e1f5-48d4-b5ed-9c1cca312bd1.png"
-              alt="Food waste"
-              className="w-full h-48 object-cover"
-            />
-            <CardContent className="p-4">
-              <p className="text-sm text-muted-foreground">
-                While some go hungry, tons of food is wasted daily
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="overflow-hidden">
-            <img 
-              src="/lovable-uploads/86fe838c-63df-4ff1-bfd9-6462f562a732.png"
-              alt="Child with food"
-              className="w-full h-48 object-cover"
-            />
-            <CardContent className="p-4">
-              <p className="text-sm text-muted-foreground">
-                A simple meal can bring joy to a child's face
+                When we share, we create moments of joy and dignity
               </p>
             </CardContent>
           </Card>
         </div>
+      </section>
 
-        <div className="mt-8">
-          <Card className="bg-red-50 dark:bg-red-950/20">
-            <CardContent className="p-6">
+      <section className="space-y-6">
+        <div className="flex flex-col space-y-3">
+          <h2 className="text-3xl font-bold tracking-tight">The Harsh Reality</h2>
+          <p className="text-xl text-muted-foreground">
+            Facts that demand our immediate attention and action
+          </p>
+        </div>
+
+        <Card className="bg-red-50 dark:bg-red-950/20">
+          <CardContent className="p-6">
+            <div className="space-y-4">
               <p className="text-lg font-semibold text-red-600 dark:text-red-400">
-                Every day in India:
+                Global Crisis:
               </p>
-              <ul className="mt-4 space-y-2">
+              <ul className="space-y-3">
                 <li className="flex items-start space-x-2">
                   <AlertCircle className="h-5 w-5 mt-0.5 text-red-500" />
-                  <span>Over 20 crore people go to bed hungry</span>
+                  <span>Hunger kills more people than AIDS, malaria, and tuberculosis combined</span>
                 </li>
                 <li className="flex items-start space-x-2">
                   <AlertCircle className="h-5 w-5 mt-0.5 text-red-500" />
-                  <span>12 kg of precious food is wasted per household</span>
+                  <span>The world produces enough food to feed everyone, yet millions go hungry</span>
                 </li>
                 <li className="flex items-start space-x-2">
                   <AlertCircle className="h-5 w-5 mt-0.5 text-red-500" />
-                  <span>40% of all food produced never reaches those who need it</span>
+                  <span>Every 3.5 seconds, someone dies from hunger-related causes</span>
                 </li>
               </ul>
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+          </CardContent>
+        </Card>
       </section>
 
       <section className="space-y-6">
@@ -330,19 +333,25 @@ const AboutPage: React.FC = () => {
       
       <Separator />
       
-      <section className="space-y-4 text-center max-w-3xl mx-auto">
+      <section className="space-y-4 text-center max-w-3xl mx-auto py-8">
         <h2 className="text-3xl font-bold">Join Us in Making a Difference</h2>
-        <p className="text-lg text-muted-foreground">
-          Together, we can create a future where everyone has access to nutritious food and no edible food goes to waste.
+        <p className="text-lg text-muted-foreground mb-6">
+          Your action today can save a life tomorrow. Together, we can create a world where no one goes to bed hungry.
         </p>
-        <div className="flex items-center justify-center mt-6 space-x-4">
-          <a href="/volunteer" className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
-            Become a Volunteer 
-            <MoveRight className="ml-2 h-4 w-4" />
-          </a>
-          <a href="/donate" className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground hover:bg-secondary/90 h-10 px-4 py-2">
-            Donate Food
+        <div className="flex items-center justify-center space-x-4">
+          <a 
+            href="/volunteer" 
+            className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-600 text-white hover:bg-red-700 h-10 px-4 py-2"
+          >
+            Become a Volunteer
             <Heart className="ml-2 h-4 w-4" />
+          </a>
+          <a 
+            href="/donate" 
+            className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+          >
+            Donate Now
+            <MoveRight className="ml-2 h-4 w-4" />
           </a>
         </div>
       </section>
