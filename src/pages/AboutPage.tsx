@@ -15,7 +15,8 @@ import {
   MapPin, 
   Heart, 
   AlertCircle,
-  MoveRight 
+  MoveRight,
+  Database 
 } from "lucide-react";
 
 const AboutPage: React.FC = () => {
