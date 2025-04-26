@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -40,6 +39,7 @@ import { DisasterCard } from "@/components/disaster/DisasterCard";
 import { ReliefKitCard } from "@/components/disaster/ReliefKitCard";
 import { DisasterTimeline } from "@/components/disaster/DisasterTimeline";
 import { useNavigate } from "react-router-dom";
+import { DonationConfirmDialog } from "@/components/disaster/DonationConfirmDialog";
 
 // Sample data for active disasters
 const activeDisasters = [
@@ -200,6 +200,7 @@ const SanjeevaniPage = () => {
   const [selectedDisaster, setSelectedDisaster] = useState<string | null>(null);
   const [customAmount, setCustomAmount] = useState<string>("");
   const [activeTab, setActiveTab] = useState("disasters");
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   // Filter disasters based on type
   const filteredDisasters = disasterFilter === "all" 
@@ -234,6 +235,14 @@ const SanjeevaniPage = () => {
   const disasterDetails = selectedDisaster 
     ? activeDisasters.find(d => d.id === selectedDisaster) 
     : null;
+
+    const handleDonateClick = () => {
+      if (!customAmount || parseFloat(customAmount) <= 0) {
+        toast.error("Please enter a valid donation amount");
+        return;
+      }
+      setIsConfirmOpen(true);
+    };
 
   return (
     <div className="container mx-auto py-8 px-4 space-y-8">
@@ -367,7 +376,7 @@ const SanjeevaniPage = () => {
                 </div>
                 <Button 
                   className="bg-red-600 hover:bg-red-700 text-white"
-                  onClick={handleCustomDonation}
+                  onClick={handleDonateClick}
                 >
                   Donate
                 </Button>
@@ -515,7 +524,7 @@ const SanjeevaniPage = () => {
                       
                       <Button 
                         className="w-full bg-red-600 hover:bg-red-700 text-white"
-                        onClick={handleCustomDonation}
+                        onClick={handleDonateClick}
                       >
                         Donate Now
                       </Button>
@@ -586,6 +595,12 @@ const SanjeevaniPage = () => {
           )}
         </TabsContent>
       </Tabs>
+      <DonationConfirmDialog
+        open={isConfirmOpen}
+        onOpenChange={setIsConfirmOpen}
+        amount={customAmount}
+        onConfirm={handleCustomDonation}
+      />
     </div>
   );
 };

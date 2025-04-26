@@ -1,29 +1,32 @@
-
 import React from 'react';
 import { MarketplaceCardsPage } from "@/components/marketplace/MarketplaceCardsPage";
 import { Separator } from "@/components/ui/separator";
 import { Recycle, ShoppingCart, TreePine } from "lucide-react";
 import { motion } from "framer-motion";
+import { CartDrawer } from "@/components/marketplace/CartDrawer";
 
 const EcoMarketplacePage = () => {
   return (
     <div className="container mx-auto py-8 space-y-8">
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="text-center space-y-4 mb-8"
-      >
-        <div className="flex justify-center">
-          <div className="p-3 bg-green-100 rounded-full">
-            <TreePine className="h-10 w-10 text-green-600" />
+      <div className="flex justify-between items-start">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center space-y-4 mb-8"
+        >
+          <div className="flex justify-center">
+            <div className="p-3 bg-green-100 rounded-full">
+              <TreePine className="h-10 w-10 text-green-600" />
+            </div>
           </div>
-        </div>
-        <h1 className="text-4xl font-bold tracking-tight">Eco-Friendly Marketplace</h1>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          Support sustainability by purchasing eco-friendly products from our partners and sponsors
-        </p>
-      </motion.div>
+          <h1 className="text-4xl font-bold tracking-tight">Eco-Friendly Marketplace</h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Support sustainability by purchasing eco-friendly products from our partners and sponsors
+          </p>
+        </motion.div>
+        <CartDrawer />
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div className="bg-green-50 p-6 rounded-lg border border-green-100">
