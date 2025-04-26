@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "sonner";
@@ -31,15 +30,17 @@ export interface ProductFilters {
 
 interface MarketplaceContextType {
   products: Product[];
+  userProducts: Product[];
   filteredProducts: Product[];
   filters: ProductFilters;
+  loading: boolean;
   setFilters: (filters: Partial<ProductFilters>) => void;
   addProduct: (product: Omit<Product, "id" | "seller_id" | "seller_name" | "created_at">) => void;
   updateProduct: (id: string, product: Partial<Omit<Product, "id" | "seller_id" | "seller_name" | "created_at">>) => void;
   deleteProduct: (id: string) => void;
+  fetchUserProducts: () => void;
 }
 
-// Sample marketplace data
 const sampleProducts: Product[] = [
   {
     id: "p1",
@@ -162,6 +163,7 @@ const MarketplaceContext = createContext<MarketplaceContextType | undefined>(und
 
 export const MarketplaceProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [products, setProducts] = useState<Product[]>(sampleProducts);
+  const [loading, setLoading] = useState<boolean>(false);
   const [filters, setFiltersState] = useState<ProductFilters>({
     search: "",
     priority: null,
@@ -169,21 +171,25 @@ export const MarketplaceProvider: React.FC<{ children: React.ReactNode }> = ({ c
     company: null
   });
 
-  // Apply filters to products
+  const userProducts = products.filter(product => product.seller_id === "current_user_id");
+
+  const fetchUserProducts = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  };
+
   const filteredProducts = products.filter((product) => {
-    // Search filter
     const searchMatch = !filters.search || 
       product.name.toLowerCase().includes(filters.search.toLowerCase()) ||
       product.description.toLowerCase().includes(filters.search.toLowerCase()) ||
       product.company?.toLowerCase().includes(filters.search.toLowerCase());
     
-    // Priority filter
     const priorityMatch = !filters.priority || product.priority === filters.priority;
     
-    // Type filter
     const typeMatch = !filters.type || product.type === filters.type;
     
-    // Company filter
     const companyMatch = !filters.company || product.company === filters.company;
     
     return searchMatch && priorityMatch && typeMatch && companyMatch;
@@ -197,8 +203,8 @@ export const MarketplaceProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const newProduct: Product = {
       ...product,
       id: uuidv4(),
-      seller_id: "current_user_id", // In a real app, this would be the authenticated user's ID
-      seller_name: "Current User", // In a real app, this would be the authenticated user's name
+      seller_id: "current_user_id",
+      seller_name: "Current User",
       created_at: new Date().toISOString()
     };
     
@@ -218,15 +224,22 @@ export const MarketplaceProvider: React.FC<{ children: React.ReactNode }> = ({ c
     toast.success("Product deleted successfully!");
   };
 
+  useEffect(() => {
+    fetchUserProducts();
+  }, []);
+
   return (
     <MarketplaceContext.Provider value={{
       products,
+      userProducts,
       filteredProducts,
       filters,
+      loading,
       setFilters,
       addProduct,
       updateProduct,
-      deleteProduct
+      deleteProduct,
+      fetchUserProducts
     }}>
       {children}
     </MarketplaceContext.Provider>
