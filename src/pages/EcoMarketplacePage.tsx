@@ -1,7 +1,8 @@
+
 import React from 'react';
 import { MarketplaceCardsPage } from "@/components/marketplace/MarketplaceCardsPage";
 import { Separator } from "@/components/ui/separator";
-import { Recycle, ShoppingCart, TreePine } from "lucide-react";
+import { IndianRupee, Recycle, ShoppingCart, TreePine } from "lucide-react";
 import { motion } from "framer-motion";
 import { CartDrawer } from "@/components/marketplace/CartDrawer";
 
@@ -41,7 +42,7 @@ const EcoMarketplacePage = () => {
 
         <div className="bg-green-50 p-6 rounded-lg border border-green-100">
           <div className="flex items-center gap-2 mb-2">
-            <ShoppingCart className="h-5 w-5 text-green-600" />
+            <IndianRupee className="h-5 w-5 text-green-600" />
             <h3 className="font-semibold text-green-800">Dual Currency Options</h3>
           </div>
           <p className="text-sm text-green-700">

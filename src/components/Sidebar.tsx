@@ -32,7 +32,7 @@ export function Sidebar() {
       "transition-all duration-300"
     )}>
       <div className="flex flex-col h-full p-2">
-        <nav className="space-y-1 flex-1 overflow-y-auto">
+        <nav className="space-y-1 flex-1 overflow-y-auto scrollbar-none">
           {menuItems.map((item) => (
             <NavLink
               key={item.to}

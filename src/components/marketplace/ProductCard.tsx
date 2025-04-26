@@ -2,11 +2,12 @@
 import React from "react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Clock, Package, ShoppingCart, Star, Tag } from "lucide-react";
+import { Clock, IndianRupee, Package, ShoppingCart, Star, Tag } from "lucide-react";
 import { Product } from "@/contexts/MarketplaceContext";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
+import { useCart } from "@/contexts/CartContext";
 
 interface ProductCardProps {
   product: Product;
@@ -17,10 +18,11 @@ interface ProductCardProps {
 
 export function ProductCard({ product, onEdit, onDelete, isSellerView = false }: ProductCardProps) {
   const { user } = useAuth();
+  const { addToCart } = useCart();
   
-  const handleBuy = () => {
-    toast.success(`You've initiated purchase of ${product.name}!`);
-    // In a real app, this would open a purchase flow
+  const handleAddToCart = () => {
+    addToCart(product);
+    toast.success(`${product.name} added to your cart!`);
   };
 
   const getPriorityColor = (priority: string) => {
@@ -51,9 +53,13 @@ export function ProductCard({ product, onEdit, onDelete, isSellerView = false }:
           {product.image_url && (
             <div className="aspect-square w-full overflow-hidden rounded-md">
               <img 
-                src={product.image_url} 
+                src={product.image_url || "/placeholder.svg"} 
                 alt={product.name}
                 className="object-cover w-full h-full"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = "/placeholder.svg";
+                }}
               />
             </div>
           )}
@@ -85,8 +91,8 @@ export function ProductCard({ product, onEdit, onDelete, isSellerView = false }:
       <CardFooter className="flex flex-col space-y-2 pt-2">
         <div className="flex justify-between w-full">
           <div className="flex items-center">
-            <Tag className="mr-1 h-4 w-4" />
-            <span className="font-medium">${product.price.toFixed(2)}</span>
+            <IndianRupee className="mr-1 h-4 w-4" />
+            <span className="font-medium">{product.price.toFixed(2)}</span>
           </div>
           <div className="text-xs text-muted-foreground">
             by {product.seller_name}
@@ -115,11 +121,11 @@ export function ProductCard({ product, onEdit, onDelete, isSellerView = false }:
         ) : (
           <Button 
             className="w-full" 
-            onClick={handleBuy}
+            onClick={handleAddToCart}
             disabled={!user}
           >
             <ShoppingCart className="mr-2 h-4 w-4" />
-            Buy Now
+            Add to Cart
           </Button>
         )}
       </CardFooter>

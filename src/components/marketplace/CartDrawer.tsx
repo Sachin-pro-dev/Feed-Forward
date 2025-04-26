@@ -7,6 +7,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
+  SheetClose,
 } from "@/components/ui/sheet";
 import { useCart } from "@/contexts/CartContext";
 import { IndianRupee, ShoppingCart, Trash2 } from "lucide-react";
@@ -48,6 +49,10 @@ export function CartDrawer() {
                     src={item.image_url || "/placeholder.svg"}
                     alt={item.name}
                     className="h-16 w-16 object-cover rounded"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "/placeholder.svg";
+                    }}
                   />
                   <div className="flex-1">
                     <h4 className="font-medium">{item.name}</h4>
@@ -94,8 +99,15 @@ export function CartDrawer() {
                   </div>
                 </div>
                 <Button asChild className="w-full">
-                  <Link to="/checkout">Proceed to Checkout</Link>
+                  <Link to="/checkout">
+                    Proceed to Checkout
+                  </Link>
                 </Button>
+                <SheetClose asChild>
+                  <Button variant="outline" className="w-full">
+                    Continue Shopping
+                  </Button>
+                </SheetClose>
               </div>
             </>
           )}
