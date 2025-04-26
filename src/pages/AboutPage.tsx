@@ -1,4 +1,3 @@
-
 import React from "react";
 import { 
   Card, 
@@ -61,101 +60,115 @@ const AboutPage: React.FC = () => {
 
       <section className="space-y-6">
         <div className="flex flex-col space-y-3">
-          <h2 className="text-3xl font-bold tracking-tight">The Problem We're Solving</h2>
+          <h2 className="text-3xl font-bold tracking-tight">The Reality We Face</h2>
           <p className="text-xl text-muted-foreground">
-            The hunger paradox: abundance alongside scarcity
+            Images that tell the story of food waste and hunger in India
           </p>
         </div>
         
-        <Card className="overflow-hidden">
-          <CardHeader className="bg-red-50 dark:bg-red-950/20">
-            <CardTitle className="text-red-600 dark:text-red-400">The Global Crisis</CardTitle>
-          </CardHeader>
-          <CardContent className="pt-6 space-y-4">
-            <p>
-              In a world that produces more than enough food for everyone, over 9 million people die each year from hunger — more than AIDS, malaria, and tuberculosis combined.
-            </p>
-            <p>
-              Every single day, 25,000 lives are lost, including 10,000 children, simply because they had nothing to eat.
-            </p>
-            <p>
-              Yet at the same time, tons of edible food is thrown away — from weddings, corporate events, restaurants, supermarkets, and parties — not because it's spoiled, but because there's no system to share it.
-            </p>
-          </CardContent>
-        </Card>
-        
-        <Card className="overflow-hidden">
-          <CardHeader className="bg-orange-50 dark:bg-orange-950/20">
-            <CardTitle className="text-orange-600 dark:text-orange-400">India's Hunger Paradox</CardTitle>
-          </CardHeader>
-          <CardContent className="pt-6 space-y-4">
-            <p>
-              India stands at the crossroads of a heart-breaking contradiction:
-            </p>
-            <p>
-              While 190 million Indians go to bed hungry every night, 40% of our food is wasted annually — amounting to 68 million tons, enough to feed 100 million people.
-            </p>
-            <p>
-              This crisis is fuelled by:
-            </p>
-            <ul className="ml-6 space-y-2 list-disc">
-              <li>Inefficient agricultural systems</li>
-              <li>Fragmented supply chains</li>
-              <li>A lack of real-time tools to manage surplus</li>
-              <li>And no streamlined way to connect those who have food with those who need it</li>
-            </ul>
-            
-            <p className="mt-4">
-              From small vendors and farmers to D-Mart, Walmart, hotels, buffets, and wedding organizers, food waste occurs at every level — leading to devastating consequences:
-            </p>
-            
-            <div className="grid gap-4 md:grid-cols-2 mt-4">
-              <div className="flex items-start space-x-3">
-                <Badge variant="outline" className="p-1">
-                  <AlertCircle className="h-4 w-4 text-red-500" />
-                </Badge>
-                <div>
-                  <p className="font-medium">Food Wastage</p>
-                  <p className="text-sm text-muted-foreground">40% of food is lost before it reaches people</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start space-x-3">
-                <Badge variant="outline" className="p-1">
-                  <AlertCircle className="h-4 w-4 text-red-500" />
-                </Badge>
-                <div>
-                  <p className="font-medium">Hunger & Malnutrition</p>
-                  <p className="text-sm text-muted-foreground">India ranks 94th on the Global Hunger Index, 1 in 4 children suffers from malnutrition</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start space-x-3">
-                <Badge variant="outline" className="p-1">
-                  <AlertCircle className="h-4 w-4 text-red-500" />
-                </Badge>
-                <div>
-                  <p className="font-medium">Economic Loss</p>
-                  <p className="text-sm text-muted-foreground">₹2 lakh crore (~1.5% of GDP) lost yearly due to food waste</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start space-x-3">
-                <Badge variant="outline" className="p-1">
-                  <AlertCircle className="h-4 w-4 text-red-500" />
-                </Badge>
-                <div>
-                  <p className="font-medium">Environmental Harm</p>
-                  <p className="text-sm text-muted-foreground">Food waste contributes to 6% of India's greenhouse gas emissions</p>
-                </div>
-              </div>
-            </div>
-            
-            <p className="mt-4 font-medium text-lg">
-              This is not a crisis of scarcity. It's a crisis of disconnection, of neglected compassion, and of systems failing the people who need them most.
-            </p>
-          </CardContent>
-        </Card>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <Card className="overflow-hidden">
+            <img 
+              src="/lovable-uploads/2435a09c-3a7b-473e-96fd-25ec452833e2.png"
+              alt="People in difficult conditions"
+              className="w-full h-48 object-cover"
+            />
+            <CardContent className="p-4">
+              <p className="text-sm text-muted-foreground">
+                Millions face daily struggles to find their next meal
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="overflow-hidden">
+            <img 
+              src="/lovable-uploads/44e59b9c-ba0f-4dad-bed6-622b672bcbb6.png"
+              alt="Person searching for food"
+              className="w-full h-48 object-cover"
+            />
+            <CardContent className="p-4">
+              <p className="text-sm text-muted-foreground">
+                Many resort to desperate measures to find sustenance
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="overflow-hidden">
+            <img 
+              src="/lovable-uploads/c1bdb005-8062-4572-982a-300d9216df00.png"
+              alt="Children sharing food"
+              className="w-full h-48 object-cover"
+            />
+            <CardContent className="p-4">
+              <p className="text-sm text-muted-foreground">
+                Children are the most vulnerable victims of food insecurity
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="overflow-hidden">
+            <img 
+              src="/lovable-uploads/ab101a95-efc6-456a-959c-98f22a8a0013.png"
+              alt="Children collecting water"
+              className="w-full h-48 object-cover"
+            />
+            <CardContent className="p-4">
+              <p className="text-sm text-muted-foreground">
+                Basic necessities remain out of reach for many
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="overflow-hidden">
+            <img 
+              src="/lovable-uploads/73319f04-e1f5-48d4-b5ed-9c1cca312bd1.png"
+              alt="Food waste"
+              className="w-full h-48 object-cover"
+            />
+            <CardContent className="p-4">
+              <p className="text-sm text-muted-foreground">
+                While some go hungry, tons of food is wasted daily
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="overflow-hidden">
+            <img 
+              src="/lovable-uploads/86fe838c-63df-4ff1-bfd9-6462f562a732.png"
+              alt="Child with food"
+              className="w-full h-48 object-cover"
+            />
+            <CardContent className="p-4">
+              <p className="text-sm text-muted-foreground">
+                A simple meal can bring joy to a child's face
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="mt-8">
+          <Card className="bg-red-50 dark:bg-red-950/20">
+            <CardContent className="p-6">
+              <p className="text-lg font-semibold text-red-600 dark:text-red-400">
+                Every day in India:
+              </p>
+              <ul className="mt-4 space-y-2">
+                <li className="flex items-start space-x-2">
+                  <AlertCircle className="h-5 w-5 mt-0.5 text-red-500" />
+                  <span>Over 20 crore people go to bed hungry</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <AlertCircle className="h-5 w-5 mt-0.5 text-red-500" />
+                  <span>12 kg of precious food is wasted per household</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <AlertCircle className="h-5 w-5 mt-0.5 text-red-500" />
+                  <span>40% of all food produced never reaches those who need it</span>
+                </li>
+              </ul>
+            </CardContent>
+          </Card>
+        </div>
       </section>
 
       <section className="space-y-6">
