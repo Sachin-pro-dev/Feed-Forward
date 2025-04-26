@@ -55,7 +55,7 @@ const activeDisasters = [
     urgentNeeds: ["Clean Water", "Food", "Medicine", "Shelter"],
     target: 1000000,
     raised: 450000,
-    imageUrl: "https://images.unsplash.com/photo-1574187389-2d89a6d3a438",
+    imageUrl: "https://images.indianexpress.com/2019/08/flood.jpg",
     updates: [
       { date: "2025-04-22", content: "Flood waters rising in Mumbai suburbs" },
       { date: "2025-04-23", content: "Rescue operations underway in affected areas" },
@@ -249,7 +249,7 @@ const SanjeevaniPage = () => {
       {/* Header Section with Impact Metrics */}
       <section className="text-center space-y-6">
         <div className="space-y-2">
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-red-600 to-red-800 bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-bold bg-red-500 text-transparent">
             SANJEEVANI
           </h1>
           <p className="text-xl text-muted-foreground">

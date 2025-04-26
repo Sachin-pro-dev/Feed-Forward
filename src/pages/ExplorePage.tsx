@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { 
   Card, 
@@ -59,7 +58,7 @@ const organizations = [
     id: 1,
     name: "Mumbai Food Bank",
     type: "ngo",
-    logo: "/placeholder.svg",
+    logo: "/images/organizations/mumbai-food-bank-logo.png",
     location: "Mumbai, Maharashtra",
     rating: 4.8,
     donationsMade: 0,
@@ -74,13 +73,13 @@ const organizations = [
     verificationStatus: "verified",
     joinedDate: "2023-02-15",
     focusArea: "Homeless & Urban Poor",
-    coverImage: "https://source.unsplash.com/1600x900/?charity"
+    coverImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLtwPk_BGzCkcgwlY8vbs0I3l2HR_ToKoi40snbwy1y5j-gtflVPut4SQF4Nh_O_In2Yo&usqp=CAU"
   },
   {
     id: 2,
     name: "Taj Hotels Mumbai",
     type: "company",
-    logo: "/placeholder.svg",
+    logo: "/images/organizations/taj-hotels-logo.png",
     location: "Mumbai, Maharashtra",
     rating: 4.9,
     donationsMade: 189,
@@ -95,13 +94,13 @@ const organizations = [
     verificationStatus: "verified",
     joinedDate: "2023-05-10",
     focusArea: "Luxury Hospitality",
-    coverImage: "https://source.unsplash.com/1600x900/?hotel"
+    coverImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdOLfJMWws6sGwuaWwlob2x59EUA0YptYL_A&s"
   },
   {
     id: 3,
     name: "D-Mart Powai",
     type: "shop",
-    logo: "/placeholder.svg",
+    logo: "/images/organizations/dmart-logo.png",
     location: "Powai, Mumbai",
     rating: 4.3,
     donationsMade: 134,
@@ -116,13 +115,13 @@ const organizations = [
     verificationStatus: "verified",
     joinedDate: "2023-07-22",
     focusArea: "Grocery & Retail",
-    coverImage: "https://source.unsplash.com/1600x900/?supermarket"
+    coverImage: "https://indian-retailer.s3.ap-south-1.amazonaws.com/s3fs-public/2024-07/BeFunky-collage%20-%202024-07-15T110428.241.jpg"
   },
   {
     id: 4,
     name: "TechForGood Inc.",
     type: "sponsor",
-    logo: "/placeholder.svg",
+    logo: "/images/organizations/tech-for-good-logo.png",
     location: "Bangalore, Karnataka",
     rating: 4.7,
     donationsMade: 0,
@@ -137,13 +136,13 @@ const organizations = [
     verificationStatus: "verified",
     joinedDate: "2023-03-05",
     focusArea: "CSR & Technology Sponsorship",
-    coverImage: "https://source.unsplash.com/1600x900/?technology"
+    coverImage: "https://static.wixstatic.com/media/661f94_0104bb38921242649a7f86ac1bab0ff0~mv2.png"
   },
   {
     id: 5,
     name: "Community Kitchen Network",
     type: "ngo",
-    logo: "/placeholder.svg",
+    logo: "/images/organizations/ckn-logo.png",
     location: "Delhi, NCR",
     rating: 4.5,
     donationsMade: 0,
@@ -158,7 +157,7 @@ const organizations = [
     verificationStatus: "verified",
     joinedDate: "2023-01-18",
     focusArea: "Community Feeding Programs",
-    coverImage: "https://source.unsplash.com/1600x900/?kitchen"
+    coverImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMcorAou92nEnYqK6gOb58_K0k9hLPYYA_Qw&s"
   },
   {
     id: 6,
@@ -179,7 +178,7 @@ const organizations = [
     verificationStatus: "verified",
     joinedDate: "2023-08-15",
     focusArea: "Sustainable Retail",
-    coverImage: "https://source.unsplash.com/1600x900/?grocery"
+    coverImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxgs9SgBffPyZJj79_zxjziaABsT0ukbeV2w&s"
   },
   {
     id: 7,
@@ -200,7 +199,7 @@ const organizations = [
     verificationStatus: "verified",
     joinedDate: "2023-04-28",
     focusArea: "Hospitality & Events",
-    coverImage: "https://source.unsplash.com/1600x900/?hotel"
+    coverImage: "https://pointsmath.com/wp-content/uploads/2023/01/Ultimate-Guide-to-Marriott-Bonvoy-India-.jpg"
   },
   {
     id: 8,
@@ -221,7 +220,7 @@ const organizations = [
     verificationStatus: "verified",
     joinedDate: "2023-06-10",
     focusArea: "Environmental Sustainability",
-    coverImage: "https://source.unsplash.com/1600x900/?environment"
+    coverImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUbkKbceDQ9FG17-XkJK2DYUvGpOy7ruJ-fQ&s"
   },
 ];
 
@@ -518,15 +517,27 @@ const ExplorePage: React.FC = () => {
                   <CardHeader className="p-0">
                     <div className="relative h-36 w-full">
                       <img
-                        src={org.coverImage || "/placeholder.svg"}
+                        src={org.coverImage}
                         alt={org.name}
                         className="absolute inset-0 w-full h-full object-cover"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = "/placeholder.svg";
+                        }}
+                        loading="lazy"
                       />
                       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/70"></div>
                       <div className="absolute bottom-2 left-3 right-3 flex justify-between items-end">
                         <div className="flex items-center gap-3">
                           <Avatar className="h-12 w-12 border-2 border-white">
-                            <AvatarImage src={org.logo} alt={org.name} />
+                            <AvatarImage 
+                              src={org.logo} 
+                              alt={org.name}
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.src = "/placeholder.svg";
+                              }}
+                            />
                             <AvatarFallback className="bg-primary/10">{org.name.charAt(0)}</AvatarFallback>
                           </Avatar>
                           <div>

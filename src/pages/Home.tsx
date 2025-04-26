@@ -98,7 +98,7 @@ export default function Home() {
             <div className="w-full h-[400px] md:h-[500px] relative">
               <div className="absolute top-0 right-0 w-[90%] h-[90%] rounded-2xl overflow-hidden shadow-lg">
                 <img
-                  src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b"
+                  src="https://img.freepik.com/premium-photo/happy-indian-children-enjoy-food-bread-dirty-crowded-streets-social-problem-poverty-hunger-lack-clean-drinking-water_184982-5918.jpg"
                   alt="Food donation app"
                   className="w-full h-full object-cover"
                 />
@@ -110,14 +110,17 @@ export default function Home() {
                 </div>
               </div>
               
-              <div className="absolute bottom-0 left-0 w-[60%] h-[40%] bg-white rounded-2xl overflow-hidden shadow-lg border p-4 z-10">
+              <div className="absolute bottom-0 left-0 w-[60%] h-[40%] bg-white rounded-2xl overflow-hidden shadow-lg border p-4 z-10 bg-blue-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-0 border border-green-500">
                 <div className="flex items-center gap-3">
                   <div className="h-10 w-10 rounded-full bg-ff-green/20 flex items-center justify-center">
                     <Award className="h-5 w-5 text-ff-green" />
                   </div>
                   <div>
                     <h4 className="font-medium">Rewards & Impact</h4>
-                    <p className="text-sm text-muted-foreground">Earn FeedCoins for your contributions</p>
+                    <p className="text-m text-muted-foreground">Earn FeedCoins for your contributions</p>
+                    <p className="text-m text-muted-foreground">A plate of food may seem small to you, but to someone hungry, it's a message that they are seen, loved, and not forgotten.</p>
+                    
+                    <p className="text-m text-muted-foreground">Donate food and earn rewards for your positive impact on the community and environment.</p>
                   </div>
                 </div>
               </div>

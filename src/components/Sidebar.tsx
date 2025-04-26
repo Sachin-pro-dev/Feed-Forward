@@ -15,7 +15,7 @@ const menuItems = [
   { icon: BarChart, label: "Community Impact", to: "/impact" },
   { icon: Bot, label: "Annapoorna Chatbot", to: "/annapoorna-chatbot" },
   { icon: FileCheck, label: "AI Order Verification", to: "/ai-order-verification" },
-  { icon: AlertTriangle, label: "SANJEEVANI", to: "/sanjeevani", special: true },
+  { icon: AlertTriangle, label: "Sanjeevani", to: "/sanjeevani", special: true },
   { icon: ShoppingCart, label: "Eco-Marketplace", to: "/eco-marketplace" },
   { icon: BarChart4, label: "CSR Dashboard", to: "/csr-dashboard" },
   { icon: User, label: "Profile", to: "/profile" },
@@ -42,7 +42,7 @@ export function Sidebar() {
                 "hover:bg-accent hover:text-accent-foreground",
                 isActive ? "bg-accent text-accent-foreground" : "text-muted-foreground",
                 collapsed && "justify-center",
-                item.special && "text-red-600 bg-red-50 font-medium hover:bg-red-100 animate-pulse"
+                item.special && "text-white text-red-500 "
               )}
             >
               <item.icon size={20} />

@@ -20,11 +20,7 @@ export function DisasterAlertButton() {
     <Button
       asChild
       variant="outline"
-      className={`transition-colors duration-300 ${
-        isBlinking
-          ? "bg-red-600 text-white hover:bg-red-700 border-red-600"
-          : "bg-white text-red-600 hover:bg-red-50 border-red-600"
-      }`}
+    className="bg-red-500"
     >
       <Link to="/sanjeevani">
         <AlertTriangle className="mr-2 h-4 w-4" />

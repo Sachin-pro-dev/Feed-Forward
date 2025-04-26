@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -49,6 +48,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
+import LocationPicker from "@/components/LocationPicker";
 
 // Create a schema for food donation
 const donationFormSchema = z.object({
@@ -562,101 +562,61 @@ export default function DonatePage() {
                 <Separator />
                 
                 {/* Location & Pickup Section */}
-                <div className="space-y-6">
-                  <h2 className="text-xl font-semibold flex items-center gap-2">
-                    <MapPin className="h-5 w-5" /> Location & Pickup Details
-                  </h2>
-                  
-                  <FormField
-                    control={form.control}
-                    name="pickupAddress"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Pickup Location</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Search for address..." {...field} />
-                        </FormControl>
-                        <FormDescription>
-                          Enter the complete address where the food can be collected
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <div className="h-[150px] bg-muted rounded-md flex items-center justify-center">
-                    <p className="text-muted-foreground">Map location selector would appear here</p>
+                <div className="space-y-8">
+                  <div>
+                    <h2 className="text-2xl font-bold">Location & Pickup Details</h2>
+                    <p className="text-muted-foreground">
+                      Please provide the pickup location and timing details
+                    </p>
                   </div>
-                  
-                  <FormField
-                    control={form.control}
-                    name="pickupTimeWindow"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Preferred Pickup Time Window</FormLabel>
-                        <Select 
-                          onValueChange={field.onChange} 
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select pickup time" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="immediately">Immediately</SelectItem>
-                            <SelectItem value="within_1_hour">Within 1 hour</SelectItem>
-                            <SelectItem value="within_3_hours">Within 3 hours</SelectItem>
-                            <SelectItem value="today">Today</SelectItem>
-                            <SelectItem value="tomorrow">Tomorrow</SelectItem>
-                            <SelectItem value="custom">Custom (specify in notes)</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                  <div className="space-y-4">
                     <FormField
                       control={form.control}
-                      name="logisticsSupport"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                          <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
-                          </FormControl>
-                          <div className="space-y-1 leading-none">
-                            <FormLabel>
-                              I can provide logistics support
-                            </FormLabel>
-                            <FormDescription>
-                              Check this if you can transport the food to a distribution center
-                            </FormDescription>
-                          </div>
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={form.control}
-                      name="onSiteContact"
+                      name="pickupAddress"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>On-Site Contact (if different)</FormLabel>
+                          <FormLabel>Pickup Address</FormLabel>
                           <FormControl>
-                            <Input placeholder="Name and phone number" {...field} />
+                            <LocationPicker
+                              value={field.value}
+                              onChange={field.onChange}
+                            />
                           </FormControl>
-                          <FormDescription>
-                            Who should be contacted on arrival at the pickup location
-                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="pickupDate"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Pickup Date</FormLabel>
+                            <FormControl>
+                              <Input type="date" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="pickupTime"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Pickup Time</FormLabel>
+                            <FormControl>
+                              <Input type="time" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
                   </div>
                 </div>
                 

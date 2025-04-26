@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -50,19 +49,18 @@ export function ProductCard({ product, onEdit, onDelete, isSellerView = false }:
       
       <CardContent className="flex-grow">
         <div className="space-y-4">
-          {product.image_url && (
-            <div className="aspect-square w-full overflow-hidden rounded-md">
-              <img 
-                src={product.image_url || "/placeholder.svg"} 
-                alt={product.name}
-                className="object-cover w-full h-full"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = "/placeholder.svg";
-                }}
-              />
-            </div>
-          )}
+          <div className="aspect-square w-full overflow-hidden rounded-md bg-muted relative">
+            <img 
+              src={product.image_url || "/placeholder.svg"} 
+              alt={product.name}
+              className="object-cover w-full h-full transition-opacity duration-300"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = "/placeholder.svg";
+              }}
+              loading="lazy"
+            />
+          </div>
           
           <p className="text-sm text-muted-foreground line-clamp-2">
             {product.description}
@@ -119,6 +117,8 @@ export function ProductCard({ product, onEdit, onDelete, isSellerView = false }:
             </Button>
           </div>
         ) : (
+          <div>
+
           <Button 
             className="w-full" 
             onClick={handleAddToCart}
@@ -126,7 +126,15 @@ export function ProductCard({ product, onEdit, onDelete, isSellerView = false }:
           >
             <ShoppingCart className="mr-2 h-4 w-4" />
             Add to Cart
+          </Button><Button 
+            className="w-full mt-4" 
+            onClick={handleAddToCart}
+            disabled={!user}
+            >
+            <ShoppingCart className="mr-2  h-4 w-4" />
+            Donate
           </Button>
+            </div>
         )}
       </CardFooter>
     </Card>
