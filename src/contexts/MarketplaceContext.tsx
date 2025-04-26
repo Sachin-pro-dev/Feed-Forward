@@ -1,11 +1,10 @@
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from './AuthContext';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { toast } from "sonner";
 
-export type ProductPriority = 'high' | 'medium' | 'low';
-export type ProductType = 'perishable' | 'non-perishable';
+export type ProductPriority = "high" | "medium" | "low";
+export type ProductType = "perishable" | "non-perishable";
 
 export interface Product {
   id: string;
@@ -13,242 +12,231 @@ export interface Product {
   description: string;
   price: number;
   image_url?: string;
-  seller_id: string;
-  seller_name: string;
   company?: string;
   priority: ProductPriority;
   type: ProductType;
   quantity: number;
-  created_at: string;
   expiry_date?: string;
+  seller_id: string;
+  seller_name: string;
+  created_at: string;
+}
+
+export interface ProductFilters {
+  search: string;
+  priority: ProductPriority | null;
+  type: ProductType | null;
+  company: string | null;
 }
 
 interface MarketplaceContextType {
   products: Product[];
-  userProducts: Product[];
-  loading: boolean;
-  filters: {
-    priority: ProductPriority | null;
-    type: ProductType | null;
-    company: string | null;
-    search: string;
-  };
-  setFilters: (filters: {
-    priority?: ProductPriority | null;
-    type?: ProductType | null;
-    company?: string | null;
-    search?: string;
-  }) => void;
-  addProduct: (product: Omit<Product, 'id' | 'seller_id' | 'seller_name' | 'created_at'>) => Promise<void>;
-  updateProduct: (id: string, updates: Partial<Product>) => Promise<void>;
-  deleteProduct: (id: string) => Promise<void>;
-  fetchProducts: () => Promise<void>;
-  fetchUserProducts: () => Promise<void>;
+  filteredProducts: Product[];
+  filters: ProductFilters;
+  setFilters: (filters: Partial<ProductFilters>) => void;
+  addProduct: (product: Omit<Product, "id" | "seller_id" | "seller_name" | "created_at">) => void;
+  updateProduct: (id: string, product: Partial<Omit<Product, "id" | "seller_id" | "seller_name" | "created_at">>) => void;
+  deleteProduct: (id: string) => void;
 }
 
+// Sample marketplace data
+const sampleProducts: Product[] = [
+  {
+    id: "p1",
+    name: "Organic Vegetable Box",
+    description: "Freshly harvested seasonal vegetables from local farms. Contains potatoes, carrots, tomatoes, and leafy greens.",
+    price: 350,
+    image_url: "https://images.unsplash.com/photo-1573246123716-6b1782bfc499",
+    company: "Green Earth Farms",
+    priority: "high",
+    type: "perishable",
+    quantity: 10,
+    expiry_date: "2025-05-02",
+    seller_id: "user1",
+    seller_name: "Green Earth Farms",
+    created_at: "2025-04-20T08:30:00Z"
+  },
+  {
+    id: "p2",
+    name: "Biodegradable Cutlery Set",
+    description: "100% biodegradable cutlery made from corn starch. Perfect for events and daily use. Pack of 50 pieces.",
+    price: 250,
+    image_url: "https://images.unsplash.com/photo-1610867851294-fe582e47c49f",
+    company: "EcoWare",
+    priority: "medium",
+    type: "non-perishable",
+    quantity: 25,
+    seller_id: "user2",
+    seller_name: "EcoWare Solutions",
+    created_at: "2025-04-15T12:45:00Z"
+  },
+  {
+    id: "p3",
+    name: "Reusable Cotton Produce Bags",
+    description: "Set of 5 durable cotton mesh bags for grocery shopping. Machine washable and eco-friendly alternative to plastic.",
+    price: 300,
+    image_url: "https://images.unsplash.com/photo-1587391028604-91a782eaa31a",
+    company: "Earth Keeper",
+    priority: "low",
+    type: "non-perishable",
+    quantity: 30,
+    seller_id: "user3",
+    seller_name: "Earth Keeper Essentials",
+    created_at: "2025-04-10T15:20:00Z"
+  },
+  {
+    id: "p4",
+    name: "Surplus Bakery Box",
+    description: "Assorted bread and pastries rescued from local bakeries. Perfectly good food saved from waste.",
+    price: 200,
+    image_url: "https://images.unsplash.com/photo-1509440159596-0249088772ff",
+    company: "Waste Not Bakery",
+    priority: "high",
+    type: "perishable",
+    quantity: 5,
+    expiry_date: "2025-04-28",
+    seller_id: "user4",
+    seller_name: "Waste Not Bakery",
+    created_at: "2025-04-22T07:15:00Z"
+  },
+  {
+    id: "p5",
+    name: "Solar Phone Charger",
+    description: "Compact solar-powered charger for smartphones and small devices. Features 5000mAh battery and dual USB ports.",
+    price: 1200,
+    image_url: "https://images.unsplash.com/photo-1620808341991-b6bf28548939",
+    company: "SolarTech",
+    priority: "medium",
+    type: "non-perishable",
+    quantity: 8,
+    seller_id: "user5",
+    seller_name: "SolarTech Innovations",
+    created_at: "2025-04-05T09:30:00Z"
+  },
+  {
+    id: "p6",
+    name: "Upcycled Tote Bag",
+    description: "Unique tote bags handcrafted from reclaimed fabrics. Each piece is one-of-a-kind and supports local artisans.",
+    price: 350,
+    image_url: "https://images.unsplash.com/photo-1605733513597-a68c8b5ae2ae",
+    company: "Craft Revival",
+    priority: "low",
+    type: "non-perishable",
+    quantity: 15,
+    seller_id: "user6",
+    seller_name: "Craft Revival Collective",
+    created_at: "2025-04-12T11:45:00Z"
+  },
+  {
+    id: "p7",
+    name: "Water-Saving Faucet Attachment",
+    description: "Easy-to-install aerator that reduces water usage by up to 70% without sacrificing pressure.",
+    price: 180,
+    image_url: "https://images.unsplash.com/photo-1583516867196-6d3e8d258f34",
+    company: "H2O Smart",
+    priority: "medium",
+    type: "non-perishable",
+    quantity: 40,
+    seller_id: "user7",
+    seller_name: "H2O Smart Solutions",
+    created_at: "2025-04-08T14:20:00Z"
+  },
+  {
+    id: "p8",
+    name: "Rescued Fruit Box",
+    description: "Mixed fruits rescued from local markets and farms. Perfectly edible produce saved from waste.",
+    price: 280,
+    image_url: "https://images.unsplash.com/photo-1610832958506-aa56368176cf",
+    company: "Second Life Produce",
+    priority: "high",
+    type: "perishable",
+    quantity: 12,
+    expiry_date: "2025-04-29",
+    seller_id: "user8",
+    seller_name: "Second Life Produce",
+    created_at: "2025-04-21T10:10:00Z"
+  }
+];
+
 const MarketplaceContext = createContext<MarketplaceContextType | undefined>(undefined);
+
+export const MarketplaceProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [products, setProducts] = useState<Product[]>(sampleProducts);
+  const [filters, setFiltersState] = useState<ProductFilters>({
+    search: "",
+    priority: null,
+    type: null,
+    company: null
+  });
+
+  // Apply filters to products
+  const filteredProducts = products.filter((product) => {
+    // Search filter
+    const searchMatch = !filters.search || 
+      product.name.toLowerCase().includes(filters.search.toLowerCase()) ||
+      product.description.toLowerCase().includes(filters.search.toLowerCase()) ||
+      product.company?.toLowerCase().includes(filters.search.toLowerCase());
+    
+    // Priority filter
+    const priorityMatch = !filters.priority || product.priority === filters.priority;
+    
+    // Type filter
+    const typeMatch = !filters.type || product.type === filters.type;
+    
+    // Company filter
+    const companyMatch = !filters.company || product.company === filters.company;
+    
+    return searchMatch && priorityMatch && typeMatch && companyMatch;
+  });
+
+  const setFilters = (newFilters: Partial<ProductFilters>) => {
+    setFiltersState(prev => ({ ...prev, ...newFilters }));
+  };
+
+  const addProduct = (product: Omit<Product, "id" | "seller_id" | "seller_name" | "created_at">) => {
+    const newProduct: Product = {
+      ...product,
+      id: uuidv4(),
+      seller_id: "current_user_id", // In a real app, this would be the authenticated user's ID
+      seller_name: "Current User", // In a real app, this would be the authenticated user's name
+      created_at: new Date().toISOString()
+    };
+    
+    setProducts(prev => [...prev, newProduct]);
+    toast.success("Product added successfully!");
+  };
+
+  const updateProduct = (id: string, updates: Partial<Omit<Product, "id" | "seller_id" | "seller_name" | "created_at">>) => {
+    setProducts(prev => prev.map(product => 
+      product.id === id ? { ...product, ...updates } : product
+    ));
+    toast.success("Product updated successfully!");
+  };
+
+  const deleteProduct = (id: string) => {
+    setProducts(prev => prev.filter(product => product.id !== id));
+    toast.success("Product deleted successfully!");
+  };
+
+  return (
+    <MarketplaceContext.Provider value={{
+      products,
+      filteredProducts,
+      filters,
+      setFilters,
+      addProduct,
+      updateProduct,
+      deleteProduct
+    }}>
+      {children}
+    </MarketplaceContext.Provider>
+  );
+};
 
 export const useMarketplace = () => {
   const context = useContext(MarketplaceContext);
   if (context === undefined) {
-    throw new Error('useMarketplace must be used within a MarketplaceProvider');
+    throw new Error("useMarketplace must be used within a MarketplaceProvider");
   }
   return context;
-};
-
-export const MarketplaceProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [userProducts, setUserProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const { user } = useAuth();
-  const [filters, setFilters] = useState({
-    priority: null as ProductPriority | null,
-    type: null as ProductType | null,
-    company: null as string | null,
-    search: '',
-  });
-
-  const fetchProducts = async () => {
-    try {
-      setLoading(true);
-      let query = supabase
-        .from('marketplace_products')
-        .select('*');
-
-      if (filters.priority) {
-        query = query.eq('priority', filters.priority);
-      }
-      if (filters.type) {
-        query = query.eq('type', filters.type);
-      }
-      if (filters.company) {
-        query = query.eq('company', filters.company);
-      }
-      if (filters.search) {
-        query = query.ilike('name', `%${filters.search}%`);
-      }
-
-      const { data, error } = await query
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        console.error('Error fetching products:', error);
-        return;
-      }
-
-      setProducts(data as Product[]);
-    } catch (error) {
-      console.error('Error in fetchProducts:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchUserProducts = async () => {
-    if (!user) return;
-    
-    try {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from('marketplace_products')
-        .select('*')
-        .eq('seller_id', user.id)
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        console.error('Error fetching user products:', error);
-        return;
-      }
-
-      setUserProducts(data as Product[]);
-    } catch (error) {
-      console.error('Error in fetchUserProducts:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const addProduct = async (product: Omit<Product, 'id' | 'seller_id' | 'seller_name' | 'created_at'>) => {
-    if (!user) {
-      toast.error("You must be logged in to add products");
-      return;
-    }
-
-    try {
-      const { data, error } = await supabase
-        .from('marketplace_products')
-        .insert({
-          ...product,
-          seller_id: user.id,
-          seller_name: user.name || 'Unknown Seller',
-        })
-        .select();
-
-      if (error) {
-        toast.error(`Error adding product: ${error.message}`);
-        return;
-      }
-
-      toast.success("Product added successfully!");
-      await fetchProducts();
-      await fetchUserProducts();
-    } catch (error: any) {
-      toast.error(`Error adding product: ${error.message}`);
-    }
-  };
-
-  const updateProduct = async (id: string, updates: Partial<Product>) => {
-    if (!user) {
-      toast.error("You must be logged in to update products");
-      return;
-    }
-
-    try {
-      const { error } = await supabase
-        .from('marketplace_products')
-        .update(updates)
-        .eq('id', id)
-        .eq('seller_id', user.id);
-
-      if (error) {
-        toast.error(`Error updating product: ${error.message}`);
-        return;
-      }
-
-      toast.success("Product updated successfully!");
-      await fetchProducts();
-      await fetchUserProducts();
-    } catch (error: any) {
-      toast.error(`Error updating product: ${error.message}`);
-    }
-  };
-
-  const deleteProduct = async (id: string) => {
-    if (!user) {
-      toast.error("You must be logged in to delete products");
-      return;
-    }
-
-    try {
-      const { error } = await supabase
-        .from('marketplace_products')
-        .delete()
-        .eq('id', id)
-        .eq('seller_id', user.id);
-
-      if (error) {
-        toast.error(`Error deleting product: ${error.message}`);
-        return;
-      }
-
-      toast.success("Product deleted successfully!");
-      await fetchProducts();
-      await fetchUserProducts();
-    } catch (error: any) {
-      toast.error(`Error deleting product: ${error.message}`);
-    }
-  };
-
-  const updateFilters = (newFilters: {
-    priority?: ProductPriority | null;
-    type?: ProductType | null;
-    company?: string | null;
-    search?: string;
-  }) => {
-    setFilters(prev => ({
-      ...prev,
-      ...newFilters,
-    }));
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, [filters]);
-
-  useEffect(() => {
-    if (user) {
-      fetchUserProducts();
-    } else {
-      setUserProducts([]);
-    }
-  }, [user]);
-
-  return (
-    <MarketplaceContext.Provider 
-      value={{
-        products,
-        userProducts,
-        loading,
-        filters,
-        setFilters: updateFilters,
-        addProduct,
-        updateProduct,
-        deleteProduct,
-        fetchProducts,
-        fetchUserProducts
-      }}
-    >
-      {children}
-    </MarketplaceContext.Provider>
-  );
 };

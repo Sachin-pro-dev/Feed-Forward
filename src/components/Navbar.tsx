@@ -6,6 +6,7 @@ import { ConnectWallet } from "./ConnectWallet";
 import { ThemeSwitcher } from "./ThemeSwitcher";
 import { UserMenu } from "./nav/UserMenu";
 import { NotificationButton } from "./nav/NotificationButton";
+import { DisasterAlertButton } from "./DisasterAlertButton";
 
 export function Navbar() {
   const { isAuthenticated } = useAuth();
@@ -21,6 +22,7 @@ export function Navbar() {
         </Link>
 
         <div className="flex items-center gap-4">
+          <DisasterAlertButton />
           <ConnectWallet />
           <ThemeSwitcher />
           <NotificationButton />

@@ -2,7 +2,7 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "react-router-dom";
-import { Home, MapPin, Heart, BarChart, ChevronLeft, ChevronRight, Info, Users, User, Database, Globe, Bot, FileCheck, BarChart4 } from "lucide-react";
+import { Home, MapPin, Heart, BarChart, ChevronLeft, ChevronRight, Info, Users, User, Database, Globe, Bot, FileCheck, BarChart4, ShoppingCart, AlertTriangle } from "lucide-react";
 import { useState } from "react";
 
 const menuItems = [
@@ -15,6 +15,8 @@ const menuItems = [
   { icon: BarChart, label: "Community Impact", to: "/impact" },
   { icon: Bot, label: "Annapoorna Chatbot", to: "/annapoorna-chatbot" },
   { icon: FileCheck, label: "AI Order Verification", to: "/ai-order-verification" },
+  { icon: AlertTriangle, label: "SANJEEVANI", to: "/sanjeevani", special: true },
+  { icon: ShoppingCart, label: "Eco-Marketplace", to: "/eco-marketplace" },
   { icon: BarChart4, label: "CSR Dashboard", to: "/csr-dashboard" },
   { icon: User, label: "Profile", to: "/profile" },
   { icon: Info, label: "About", to: "/about" },
@@ -39,7 +41,8 @@ export function Sidebar() {
                 "flex items-center gap-3 px-3 py-2 rounded-lg transition-colors",
                 "hover:bg-accent hover:text-accent-foreground",
                 isActive ? "bg-accent text-accent-foreground" : "text-muted-foreground",
-                collapsed && "justify-center"
+                collapsed && "justify-center",
+                item.special && "text-red-600 bg-red-50 font-medium hover:bg-red-100 animate-pulse"
               )}
             >
               <item.icon size={20} />

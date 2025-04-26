@@ -35,6 +35,8 @@ import ExplorePage from "./pages/ExplorePage";
 import AIOrderVerificationPage from "./pages/AIOrderVerificationPage";
 import AnnapoornaChatbotPage from "./pages/AnnapoornaChatbotPage";
 import CSRDashboardPage from "./pages/CSRDashboardPage";
+import SanjeevaniPage from "./pages/SanjeevaniPage";
+import EcoMarketplacePage from "./pages/EcoMarketplacePage";
 
 const queryClient = new QueryClient();
 
@@ -75,6 +77,8 @@ const App = () => (
                       <Route path="/ai-order-verification" element={<Layout><AIOrderVerificationPage /></Layout>} />
                       <Route path="/annapoorna-chatbot" element={<Layout><AnnapoornaChatbotPage /></Layout>} />
                       <Route path="/csr-dashboard" element={<Layout><CSRDashboardPage /></Layout>} />
+                      <Route path="/sanjeevani" element={<Layout><SanjeevaniPage /></Layout>} />
+                      <Route path="/eco-marketplace" element={<Layout><EcoMarketplacePage /></Layout>} />
                       
                       <Route path="/profile" element={
                         <Layout>
